@@ -2,14 +2,13 @@
 
 static double next_drn()
 {
-  struct {
+  union {
     double d;
-    union {
+    struct {
       uint32_t lo, hi;
     } u;
   } r;
   do {
-    r.u.lo = arc4random();
     r.u.hi = arc4random();
   } while (!isfinite(r.d));
   return r.d;
