@@ -35,6 +35,8 @@
 *.i*86
 *.x86_64
 *.hex
+*.lnx
+*.osx
 
 # Debug files
 *.dSYM/
@@ -48,4 +50,4 @@
 *.optrpt
 
 # Data
-*.bin
+*.dbl

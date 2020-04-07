@@ -1,4 +1,20 @@
+/* clang -DNDEBUG -I../src -std=gnu17 -O3 -march=native -integrated-as rndgen.c -o rndgen.exe */
+
 #include "common.h"
+
+static double next_drn()
+{
+  union {
+    double d;
+    struct {
+      uint32_t lo, hi;
+    } u;
+  } r;
+  do {
+    r.u.hi = arc4random();
+  } while (!isfinite(r.d));
+  return r.d;
+}
 
 int main(int argc, char *argv[])
 {
@@ -9,11 +25,6 @@ int main(int argc, char *argv[])
   const size_t n = (size_t)strtoull(argv[1], (char**)NULL, 0);
   if (!n) {
     perror("strtoull");
-    return EXIT_FAILURE;
-  }
-  FILE *const r = fopen("/dev/urandom", "rb");
-  if (!r) {
-    perror("fopen(/dev/urandom)");
     return EXIT_FAILURE;
   }
   FILE *const f = fopen(argv[2], "wb");
@@ -27,12 +38,11 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
   }
 
-  (void)fprintf(stdout, "reading %zu bytes from /dev/urandom to memory... ", (n * sizeof(double)));
+  const size_t nd = n * sizeof(double);
+  (void)fprintf(stdout, "arc4random_buf(%zu B)... ", nd);
   (void)fflush(stdout);
-  if (n != fread(d, sizeof(double), n, r)) {
-    perror("fread");
-    return EXIT_FAILURE;
-  }
+
+  arc4random_buf(d, nd);
   (void)fprintf(stdout, "done\n");
   (void)fflush(stdout);
 
@@ -40,11 +50,8 @@ int main(int argc, char *argv[])
   (void)fflush(stdout);
   size_t j = 0u;
   for (size_t i = 0u; i < n; ++i) {
-    while (!isfinite(d[i])) {
-      if ((size_t)1u != fread(d + i, sizeof(double), (size_t)1u, r)) {
-        perror("fread");
-        return EXIT_FAILURE;
-      }
+    if (!isfinite(d[i])) {
+      d[i] = next_drn();
       ++j;
     }
   }
