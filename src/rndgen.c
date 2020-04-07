@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
     perror("fwrite");
   else if (fclose(f))
     perror("fclose");
+  else if (fclose(r))
+    perror("fclose(/dev/urandom)");
   else {
     (void)fprintf(stdout, "done\n");
     (void)fflush(stdout);

@@ -27,7 +27,7 @@ endif # ?Linux
 FPUFLAGS=-fp-model strict -fp-stack-check -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high
 endif # ?NDEBUG
 LIBFLAGS=-I. -I../../JACSD/vn -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L. -L../../JACSD -lvn$(PROFILE)$(DEBUG)
+LDFLAGS=-L. -lveckog -L../../JACSD -lvn$(PROFILE)$(DEBUG)
 ifeq ($(ARCH),Darwin)
 LDFLAGS += -L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
 else # Linux

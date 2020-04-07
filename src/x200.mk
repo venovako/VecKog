@@ -24,5 +24,5 @@ DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -
 FPUFLAGS=-fp-model strict -fp-stack-check -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE -I. -I../../JACSD/vn -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L. -L../../JACSD -lvn$(PROFILE)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
+LDFLAGS=-L. -lveckog -L../../JACSD -lvn$(PROFILE)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
 CFLAGS=$(OPTFLAGS) $(DBGFLAGS) $(LIBFLAGS) $(C18FLAGS) $(FPUFLAGS)
