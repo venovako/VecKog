@@ -46,3 +46,6 @@
 *.S
 *.s
 *.optrpt
+
+# Data
+*.bin
