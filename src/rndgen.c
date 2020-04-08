@@ -6,9 +6,9 @@ int main(int argc, char *argv[])
     (void)fprintf(stderr, "%s N FileName\n", argv[0]);
     return EXIT_FAILURE;
   }
-  const size_t n = (size_t)strtoull(argv[1], (char**)NULL, 0);
+  const size_t n = atoz(argv[1]);
   if (!n) {
-    perror("strtoull");
+    perror("atoz");
     return EXIT_FAILURE;
   }
   FILE *const r = fopen("/dev/urandom", "rb");
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     perror("fopen(/dev/urandom)");
     return EXIT_FAILURE;
   }
-  FILE *const f = fopen(argv[2], "wb");
+  FILE *const f = ((argv[2] && *(argv[2])) ? fopen(argv[2], "wb") : (FILE*)NULL);
   if (!f) {
     perror("fopen");
     return EXIT_FAILURE;

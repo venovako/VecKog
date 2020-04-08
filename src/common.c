@@ -16,3 +16,10 @@ static_assert(sizeof(extended) == 16, "sizeof(extended) != 16");
 #endif /* USE_INTEL */
 static_assert(sizeof(scomplex) == 8, "sizeof(scomplex) != 8");
 static_assert(sizeof(dcomplex) == 16, "sizeof(dcomplex) != 16");
+
+size_t atoz(const char *const s)
+{
+  char *e = (char*)NULL;
+  const size_t z = ((s && *s) ? (size_t)strtoull(s, &e, 0) : (size_t)0u);
+  return ((e && *e) ? (size_t)0u : z);
+}

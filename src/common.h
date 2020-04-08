@@ -72,6 +72,10 @@ typedef uint32_t fnat;
 #endif /* ?FNAT_C */
 #endif /* ?FINT64 */
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif /* _OPENMP */
+
 #ifdef USE_MKL
 #ifdef FINT64
 #ifndef MKL_ILP64
@@ -124,5 +128,7 @@ typedef uint32_t fnat;
 #ifndef LAPACK_Z
 #define LAPACK_Z(name) z##name##_
 #endif /* !LAPACK_Z */
+
+extern size_t atoz(const char *const s);
 
 #endif /* !COMMON_H */
