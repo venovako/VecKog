@@ -36,20 +36,28 @@ int main(int argc, char *argv[])
   (void)fprintf(stdout, "done\n");
   (void)fflush(stdout);
 
-  (void)fprintf(stdout, "checking for NaNs and infinities... ");
+  (void)fprintf(stdout, "checking for NaNs and infinities with %d threads... ", omp_get_max_threads());
   (void)fflush(stdout);
   size_t j = 0u;
+  bool k = true;
+#pragma omp parallel for default(none) shared(n,d,r,j,k)
   for (size_t i = 0u; i < n; ++i) {
-    while (!isfinite(d[i])) {
-      if ((size_t)1u != fread(d + i, sizeof(double), (size_t)1u, r)) {
-        perror("fread");
-        return EXIT_FAILURE;
+    while (!isfinite(d[i]) && k) {
+#pragma omp critical
+      if (k) {
+        if ((size_t)1u != fread(d + i, sizeof(double), (size_t)1u, r)) {
+          k = false;
+          perror("fread");
+        }
+        else
+          ++j;
       }
-      ++j;
     }
   }
   (void)fprintf(stdout, "%zu found and replaced\n", j);
   (void)fflush(stdout);
+  if (!k)
+    return EXIT_FAILURE;
 
   (void)fprintf(stdout, "writing %s file... ", argv[2]);
   (void)fflush(stdout);

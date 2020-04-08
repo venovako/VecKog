@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
   (void)fprintf(stdout, "done\n");
   (void)fflush(stdout);
 
-  (void)fprintf(stdout, "calling DLAS2... ");
+  (void)fprintf(stdout, "testing DLAS2 with %d threads... ", omp_get_max_threads());
   (void)fflush(stdout);
   double t = omp_get_wtime();
 #pragma omp parallel for default(none) shared(n,D,Smax,Smin)
