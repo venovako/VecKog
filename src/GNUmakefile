@@ -17,16 +17,13 @@ dlas2t.exe: dlas2t.c common.h libveckog.a $(MKFS)
 rndgen.exe: rndgen.c common.h libveckog.a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-libveckog.a: wre.o qmm.o xmm.o common.o $(MKFS)
-	$(AR) $(ARFLAGS) $@ wre.o qmm.o xmm.o common.o
+libveckog.a: wre.o wmm.o common.o $(MKFS)
+	$(AR) $(ARFLAGS) $@ wre.o wmm.o common.o
 
-wre.o: wre.c wre.h qmm.h xmm.h common.h $(MKFS)
+wre.o: wre.c wre.h wmm.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
 
-qmm.o: qmm.c qmm.h common.h $(MKFS)
-	$(CC) $(CFLAGS) -c $<
-
-xmm.o: xmm.c xmm.h common.h $(MKFS)
+wmm.o: wmm.c wmm.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
 
 common.o: common.c common.h $(MKFS)
@@ -34,8 +31,7 @@ common.o: common.c common.h $(MKFS)
 
 clean:
 	-$(RM) common.o
-	-$(RM) xmm.o
-	-$(RM) qmm.o
+	-$(RM) wmm.o
 	-$(RM) wre.o
 	-$(RM) libveckog.a
 	-$(RM) rndgen.exe
