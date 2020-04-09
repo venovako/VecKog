@@ -1,6 +1,7 @@
 #include "wre.h"
 
 #include "wmm.h"
+#include "wor.h"
 
 void wdre
 (const size_t n, wide RE[static 1], wide OU[static 1], wide OV[static 1],
@@ -13,6 +14,8 @@ void wdre
   for (size_t i = (size_t)0u; i < n; ++i) {
     RE[i] = wdmm
       ((A11 + i), (A21 + i), (A12 + i), (A22 + i), U11[i], U21[i], U12[i], U22[i], S1[i], S2[i], V11[i], V21[i], V12[i], V22[i]);
+    OU[i] = wdor(U11[i], U21[i], U12[i], U22[i]);
+    OV[i] = wdor(V11[i], V21[i], V12[i], V22[i]);
   }
 }
 
@@ -39,5 +42,7 @@ void wzre
        U11r[i], U11i[i], U21r[i], U21i[i], U12r[i], U12i[i], U22r[i], U22i[i],
        S1[i], S2[i],
        V11r[i], V11i[i], V21r[i], V21i[i], V12r[i], V12i[i], V22r[i], V22i[i]);
+    OU[i] = wzor(U11r[i], U11i[i], U21r[i], U21i[i], U12r[i], U12i[i], U22r[i], U22i[i]);
+    OV[i] = wzor(V11r[i], V11i[i], V21r[i], V21i[i], V12r[i], V12i[i], V22r[i], V22i[i]);
   }
 }
