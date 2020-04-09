@@ -3,10 +3,52 @@
 
 #ifdef __ICC
 #include <mathimf.h>
+extern __float128 __fmaq(__float128, __float128, __float128);
+extern __float128 __fmaxq(__float128, __float128);
+extern __float128 __hypotq(__float128, __float128);
 #else /* !__ICC */
 #include <complex.h>
 #include <math.h>
+#ifndef USE_EXTENDED
+#define USE_EXTENDED
+#endif /* !USE_EXTENDED */
 #endif /* __ICC */
+
+#ifdef USE_EXTENDED
+typedef long double wide;
+#ifndef fmaw
+#define fmaw fmal
+#else /* fmaw */
+#error fmaw already defined
+#endif /* ?fmaw */
+#ifndef fmaxw
+#define fmaxw fmaxl
+#else /* fmaxw */
+#error fmaxw already defined
+#endif /* ?fmaxw */
+#ifndef hypotw
+#define hypotw hypotl
+#else /* hypotw */
+#error hypotw already defined
+#endif /* ?hypotw */
+#else /* USE_QUAD */
+typedef __float128 wide;
+#ifndef fmaw
+#define fmaw __fmaq
+#else /* fmaw */
+#error fmaw already defined
+#endif /* ?fmaw */
+#ifndef fmaxw
+#define fmaxw __fmaxq
+#else /* fmaxw */
+#error fmaxw already defined
+#endif /* ?fmaxw */
+#ifndef hypotw
+#define hypotw __hypotq
+#else /* hypotw */
+#error hypotw already defined
+#endif /* ?hypotw */
+#endif /* ?USE_EXTENDED */
 
 #ifndef CMPLXF
 #define CMPLXF(r,i) ((float)(r) + I * (float)(i))
@@ -17,9 +59,12 @@
 #ifndef CMPLXL
 #define CMPLXL(r,i) ((long double)(r) + I * (long double)(i))
 #endif /* !CMPLXL */
-#ifndef CMPLXQ
-#define CMPLXQ(r,i) ((__float128)(r) + I * (__float128)(i))
-#endif /* !CMPLXQ */
+
+#ifndef CMPLXW
+#define CMPLXW(r,i) ((wide)(r) + I * (wide)(i))
+#else /* CMPLXW */
+#error CMPLXW already defined
+#endif /* ?CMPLXW */
 
 #include <assert.h>
 #include <ctype.h>
