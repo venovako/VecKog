@@ -41,9 +41,17 @@ static inline void wxfma(wide dr[static 1], wide di[static 1], const wide ar, co
 
 static inline void wfma(wide dr[static 1], wide di[static 1], const wide ar, const wide ai, const wide br, const wide bi, const wide cr, const wide ci)
 {
+#ifdef USE_EXTENDED
+  if (ai == 0.0L)
+#else /* USE_QUAD */
   if (ai == 0.0q)
+#endif /* ?USE_EXTENDED */
     wwfma(dr, di, ar, br, bi, cr, ci);
+#ifdef USE_EXTENDED
+  else if (ar == 0.0L)
+#else /* USE_QUAD */
   else if (ar == 0.0q)
+#endif /* ?USE_QUAD */
     wjfma(dr, di, ai, br, bi, cr, ci);
   else
     wxfma(dr, di, ar, ai, br, bi, cr, ci);
@@ -64,7 +72,7 @@ wide wzmm
  const double v12r, const double v12i,
  const double v22r, const double v22i)
 {
-  wide r = 0.0q, i = 0.0q,
+  wide r, i,
     A11r = (wide)-*a11r, A11i = (wide)-*a11i,
     A21r = (wide)-*a21r, A21i = (wide)-*a21i,
     A12r = (wide)-*a12r, A12i = (wide)-*a12i,
