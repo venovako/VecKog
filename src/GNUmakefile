@@ -11,19 +11,32 @@ all: libveckog.a dlas2t.exe rndgen.exe
 help:
 	@echo "gmake [CPU=x200|x64] [NDEBUG=0|1|2|3|4|5] [PROFILE=p] [all|clean|help]"
 
-libveckog.a: common.o $(MKFS)
-	$(AR) $(ARFLAGS) $@ common.o
-
-common.o: common.c common.h $(MKFS)
-	$(CC) $(CFLAGS) -c $<
-
 dlas2t.exe: dlas2t.c common.h libveckog.a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 rndgen.exe: rndgen.c common.h libveckog.a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
+libveckog.a: wre.o qmm.o xmm.o common.o $(MKFS)
+	$(AR) $(ARFLAGS) $@ wre.o qmm.o xmm.o common.o
+
+wre.o: wre.c wre.h qmm.h xmm.h common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $<
+
+qmm.o: qmm.c qmm.h common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $<
+
+xmm.o: xmm.c xmm.h common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $<
+
+common.o: common.c common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $<
+
 clean:
+	-$(RM) common.o
+	-$(RM) xmm.o
+	-$(RM) qmm.o
+	-$(RM) wre.o
+	-$(RM) libveckog.a
 	-$(RM) rndgen.exe
 	-$(RM) dlas2t.exe
-	-$(RM) libveckog.a
