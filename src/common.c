@@ -11,11 +11,11 @@ static_assert(sizeof(fnat) == 4, "sizeof(fnat) != 4");
 static_assert(sizeof(float) == 4, "sizeof(float) != 4");
 static_assert(sizeof(double) == 8, "sizeof(double) != 8");
 static_assert(sizeof(long double) >= 8, "sizeof(long double) < 8");
-#ifdef USE_INTEL
-static_assert(sizeof(extended) == 16, "sizeof(extended) != 16");
-#endif /* USE_INTEL */
-static_assert(sizeof(scomplex) == 8, "sizeof(scomplex) != 8");
-static_assert(sizeof(dcomplex) == 16, "sizeof(dcomplex) != 16");
+static_assert(sizeof(__float128) == 16, "sizeof(__float128) != 16");
+static_assert(sizeof(float _Complex) == 8, "sizeof(float _Complex) != 8");
+static_assert(sizeof(double _Complex) == 16, "sizeof(double _Complex) != 16");
+static_assert(sizeof(long double _Complex) >= 16, "sizeof(long double _Complex) < 16");
+static_assert(sizeof(__float128 _Complex) == 32, "sizeof(__float128 _Complex) != 32");
 
 size_t atoz(const char *const s)
 {

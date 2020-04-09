@@ -8,10 +8,6 @@
 #include <math.h>
 #endif /* __ICC */
 
-typedef float complex scomplex;
-typedef double complex dcomplex;
-typedef long double complex xcomplex;
-
 #ifndef CMPLXF
 #define CMPLXF(r,i) ((float)(r) + I * (float)(i))
 #endif /* !CMPLXF */
@@ -21,11 +17,9 @@ typedef long double complex xcomplex;
 #ifndef CMPLXL
 #define CMPLXL(r,i) ((long double)(r) + I * (long double)(i))
 #endif /* !CMPLXL */
-
-#ifdef USE_INTEL
-/* Intel 80-bit extended floating-point value stored in the lowest 10 bytes of a 16-byte variable */
-typedef long double extended;
-#endif /* USE_INTEL */
+#ifndef CMPLXQ
+#define CMPLXQ(r,i) ((__float128)(r) + I * (__float128)(i))
+#endif /* !CMPLXQ */
 
 #include <assert.h>
 #include <ctype.h>
@@ -41,7 +35,6 @@ typedef long double extended;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tgmath.h>
 #include <time.h>
 
 #ifdef FINT64
@@ -83,10 +76,10 @@ typedef uint32_t fnat;
 #endif /* !MKL_ILP64 */
 #endif /* FINT64 */
 #ifndef MKL_Complex8
-#define MKL_Complex8 scomplex
+#define MKL_Complex8 float _Complex
 #endif /* !MKL_Complex8 */
 #ifndef MKL_Complex16
-#define MKL_Complex16 dcomplex
+#define MKL_Complex16 double _Complex
 #endif /* !MKL_Complex16 */
 #include <mkl.h>
 #ifndef BLAS_S
