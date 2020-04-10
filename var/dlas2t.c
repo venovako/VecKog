@@ -1,5 +1,9 @@
 #include "common.h"
 
+/* The 2x2 matrices in the input file are assumed to be stored in Fortran order as
+   [ F G ]
+   [ 0 H ]
+*/
 typedef const double (*pmtx)[2][2];
 
 static inline void dlas2f(const double F, const double G, const double H, double Smax[static 1], double Smin[static 1])
