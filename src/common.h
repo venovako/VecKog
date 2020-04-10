@@ -103,7 +103,7 @@ typedef __float128 wide;
 #include <time.h>
 
 #ifdef FINT64
-typedef int64_t fint;
+typedef  int64_t fint;
 typedef uint64_t fnat;
 #ifndef FINT_C
 #define FINT_C(x) INT64_C(x)
@@ -116,7 +116,7 @@ typedef uint64_t fnat;
 #error FNAT_C already defined
 #endif /* ?FNAT_C */
 #else /* FINT32 */
-typedef int32_t fint;
+typedef  int32_t fint;
 typedef uint32_t fnat;
 #ifndef FINT_C
 #define FINT_C(x) INT32_C(x)

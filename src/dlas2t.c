@@ -2,14 +2,14 @@
 
 typedef const double (*pmtx)[2][2];
 
-static inline void dlas2f(const double A[static 2][2], double Smax[static 1], double Smin[static 1])
+static inline void dlas2f(const double F, const double G, const double H, double Smax[static 1], double Smin[static 1])
 {
-  LAPACK_D(las2)(&(A[0][0]), &(A[1][0]), &(A[1][1]), Smin, Smax);
+  LAPACK_D(las2)(&F, &G, &H, Smin, Smax);
 }
 
 static inline void dlas2c(const size_t i, const pmtx D, double Smax[static 1], double Smin[static 1])
 {
-  dlas2f(D[i], (Smax + i), (Smin + i));
+  dlas2f(D[i][0][0], D[i][1][0], D[i][1][1], (Smax + i), (Smin + i));
 }
 
 int main(int argc, char *argv[])

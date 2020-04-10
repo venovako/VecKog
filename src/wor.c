@@ -15,10 +15,6 @@ wide wdor
   return hypotw(hypotw(D11, D21), hypotw(D12, D22));
 }
 
-/*
-  u11* u21*  u11 u12
-  u12* u22*  u21 u22
- */
 wide wzor
 (const double u11r, const double u11i,
  const double u21r, const double u21i,
