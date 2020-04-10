@@ -16,8 +16,8 @@ wide wdor
 }
 
 /*
-  u11 u21  u11 u12
-  u12 u22  u21 u22
+  u11* u21*  u11 u12
+  u12* u22*  u21 u22
  */
 wide wzor
 (const double u11r, const double u11i,
@@ -25,5 +25,19 @@ wide wzor
  const double u12r, const double u12i,
  const double u22r, const double u22i)
 {
-  return W_ZERO;
+  wide D11, D22, D21r, D21i, D12r, D12i, tr, ti;
+
+  const wide
+    U11r = (wide)u11r, U11i = (wide)u11i,
+    U21r = (wide)u21r, U21i = (wide)u21i,
+    U12r = (wide)u12r, U12r = (wide)u12i,
+    U22r = (wide)u22r, U22i = (wide)u22i;
+
+  D11 = fmaw(U11r, U11r, fmaw(U11i, U11i, fmaw(U21r, U21r, fmaw(U21i, U21i, W_MONE))));
+  wxmul(&tr, &ti, U22r, -U22i, U21r, U21i);
+  wfma(&D21r, &D21i, U12r, -U12i, U11r, U11i, tr,  ti);
+  wfma(&D12r, &D12i, U11r, -U11i, U12r, U12i, tr, -ti);
+  D22 = fmaw(U12r, U12r, fmaw(U12i, U12i, fmaw(U22r, U22r, fmaw(U22i, U22i, W_MONE))));
+
+  return hypotw(hypotw(D11, hypotw(D21r, D21i)), hypotw(hypotw(D12r, D12i), D22));
 }
