@@ -215,6 +215,12 @@ static inline void wfma(wide dr[static 1], wide di[static 1], const wide ar, con
     wxfma(dr, di, ar, ai, br, bi, cr, ci);
 }
 
+static inline void wxmul(wide cr[static 1], wide ci[static 1], const wide ar, const wide ai, const wide br, const wide bi)
+{
+  *cr = fmaw(ar, br, -ai * bi);
+  *ci = fmaw(ar, bi,  ai * br);
+}
+
 extern size_t atoz(const char *const s);
 
 #endif /* !COMMON_H */
