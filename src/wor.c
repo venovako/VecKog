@@ -30,7 +30,7 @@ wide wzor
   const wide
     U11r = (wide)u11r, U11i = (wide)u11i,
     U21r = (wide)u21r, U21i = (wide)u21i,
-    U12r = (wide)u12r, U12r = (wide)u12i,
+    U12r = (wide)u12r, U12i = (wide)u12i,
     U22r = (wide)u22r, U22i = (wide)u22i;
 
   D11 = fmaw(U11r, U11r, fmaw(U11i, U11i, fmaw(U21r, U21r, fmaw(U21i, U21i, W_MONE))));
