@@ -6,6 +6,7 @@
 extern __float128 __fmaq(__float128, __float128, __float128);
 extern __float128 __fmaxq(__float128, __float128);
 extern __float128 __hypotq(__float128, __float128);
+extern __float128 __scalbq(__float128, __float128);
 #else /* !__ICC */
 #include <complex.h>
 #include <math.h>
@@ -31,6 +32,11 @@ typedef long double wide;
 #else /* hypotw */
 #error hypotw already defined
 #endif /* ?hypotw */
+#ifndef scalbw
+#define scalbw scalbl
+#else /* scalbw */
+#error scalbw already defined
+#endif /* ?scalbw */
 #ifndef W_ZERO
 #define W_ZERO 0.0L
 #else /* W_ZERO */
@@ -58,6 +64,11 @@ typedef __float128 wide;
 #else /* hypotw */
 #error hypotw already defined
 #endif /* ?hypotw */
+#ifndef scalbw
+#define scalbw __scalbq
+#else /* scalbw */
+#error scalbw already defined
+#endif /* ?scalbw */
 #ifndef W_ZERO
 #define W_ZERO 0.0q
 #else /* W_ZERO */
