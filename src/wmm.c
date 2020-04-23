@@ -9,7 +9,7 @@ wide wdmm
   wide S = W_ZERO, S1 = (wide)s1, S2 = (wide)s2,
     A11 = (wide)-a11, A21 = (wide)-a21, A12 = (wide)-a12, A22 = (wide)-a22;
   if (s != 0.0) {
-    S = (wide)s;
+    S = (wide)-s;
     S1 = scalbw(S1, S);
     S2 = scalbw(S2, S);
   }
@@ -47,7 +47,7 @@ wide wzmm
     A22r = (wide)-a22r, A22i = (wide)-a22i,
     r = W_ZERO, i = W_ZERO;
   if (s != 0.0) {
-    S = (wide)s;
+    S = (wide)-s;
     S1 = scalbw(S1, S);
     S2 = scalbw(S2, S);
   }
