@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   size_t j = 0u;
   bool k = true;
 #pragma omp parallel for default(none) shared(n,d,r,j,k)
-  for (size_t i = 0u; i < n; ++i) {
+  for (size_t i = (size_t)0u; i < n; ++i) {
     while (!isfinite(d[i]) && k) {
 #pragma omp critical
       if (k) {

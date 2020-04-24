@@ -92,7 +92,11 @@ typedef __float128 wide;
 #endif /* !CMPLXL */
 
 #ifndef CMPLXW
+#ifdef USE_EXTENDED
+#define CMPLXW(r,i) CMPLXL((r),(i))
+#else /* USE_QUAD */
 #define CMPLXW(r,i) ((wide)(r) + I * (wide)(i))
+#endif /* ?USE_EXTENDED */
 #else /* CMPLXW */
 #error CMPLXW already defined
 #endif /* ?CMPLXW */
