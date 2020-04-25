@@ -2,12 +2,10 @@
 
 #include "vec.h"
 
-static inline void free_nil(double **const d)
+static inline void free_nil(double *d[static 1])
 {
-  if (d) {
-    free(*d);
-    *d = (double*)NULL;
-  }
+  free(*d);
+  *d = (double*)NULL;
 }
 
 double *Valloc(const size_t n)
@@ -19,7 +17,7 @@ double *Valloc(const size_t n)
 #pragma omp parallel for default(none) shared(V,d)
     for (size_t i = (size_t)0u; i < V; ++i) {
       register const VD z = VI(setzero)();
-      VI(stream)((d + (i << VLlg)), z);
+      VI(store)((d + (i << VLlg)), z);
     }
   }
   else {
@@ -49,12 +47,38 @@ Dmem *Dalloc(const size_t n)
     d->v.S1 = Valloc(n);
     d->v.S2 = Valloc(n);
     d->v.s = Valloc(n);
+#ifdef TEST_DLASV2
+    d->t.R11 = Valloc(n);
+    d->t.R12 = Valloc(n);
+    d->t.R22 = Valloc(n);
+    d->t.U11 = Valloc(n);
+    d->t.U21 = Valloc(n);
+    d->t.U12 = Valloc(n);
+    d->t.U22 = Valloc(n);
+    d->t.V11 = Valloc(n);
+    d->t.V21 = Valloc(n);
+    d->t.V12 = Valloc(n);
+    d->t.V22 = Valloc(n);
+#endif /* TEST_DLASV2 */
   }
   return d;
 }
 
 void Dfree(Dmem d[static 1])
 {
+#ifdef TEST_DLASV2
+  free_nil(&(d->t.V22));
+  free_nil(&(d->t.V12));
+  free_nil(&(d->t.V21));
+  free_nil(&(d->t.V11));
+  free_nil(&(d->t.U22));
+  free_nil(&(d->t.U12));
+  free_nil(&(d->t.U21));
+  free_nil(&(d->t.U11));
+  free_nil(&(d->t.R22));
+  free_nil(&(d->t.R12));
+  free_nil(&(d->t.R11));
+#endif /* TEST_DLASV2 */
   free_nil(&(d->v.s));
   free_nil(&(d->v.S2));
   free_nil(&(d->v.S1));
@@ -104,12 +128,38 @@ Zmem *Zalloc(const size_t n)
     z->v.S1 = Valloc(n);
     z->v.S2 = Valloc(n);
     z->v.s = Valloc(n);
+#ifdef TEST_DLASV2
+    z->t.R11 = Valloc(n);
+    z->t.R12 = Valloc(n);
+    z->t.R22 = Valloc(n);
+    z->t.U11 = Valloc(n);
+    z->t.U21 = Valloc(n);
+    z->t.U12 = Valloc(n);
+    z->t.U22 = Valloc(n);
+    z->t.V11 = Valloc(n);
+    z->t.V21 = Valloc(n);
+    z->t.V12 = Valloc(n);
+    z->t.V22 = Valloc(n);
+#endif /* TEST_DLASV2 */
   }
   return z;
 }
 
 void Zfree(Zmem z[static 1])
 {
+#ifdef TEST_DLASV2
+  free_nil(&(z->t.V22));
+  free_nil(&(z->t.V12));
+  free_nil(&(z->t.V21));
+  free_nil(&(z->t.V11));
+  free_nil(&(z->t.U22));
+  free_nil(&(z->t.U12));
+  free_nil(&(z->t.U21));
+  free_nil(&(z->t.U11));
+  free_nil(&(z->t.R22));
+  free_nil(&(z->t.R12));
+  free_nil(&(z->t.R11));
+#endif /* TEST_DLASV2 */
   free_nil(&(z->v.s));
   free_nil(&(z->v.S2));
   free_nil(&(z->v.S1));

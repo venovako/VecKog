@@ -10,6 +10,12 @@ typedef struct {
 } matrices;
 
 typedef struct {
+  double *R11, *R12, *R22; /* F, G, H */
+  double *U11, *U21, *U12, *U22;
+  double *V11, *V21, *V12, *V22;
+} triang;
+
+typedef struct {
   double *S1, *S2;
   double *s;
 } vectors;
@@ -17,11 +23,17 @@ typedef struct {
 typedef struct {
   matrices r;
   vectors v;
+#ifdef TEST_DLASV2
+  triang t;
+#endif /* TEST_DLASV2 */
 } Dmem;
 
 typedef struct {
   matrices r, i;
   vectors v;
+#ifdef TEST_DLASV2
+  triang t;
+#endif /* TEST_DLASV2 */
 } Zmem;
 
 extern double *Valloc(const size_t n);
