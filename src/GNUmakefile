@@ -14,8 +14,11 @@ help:
 rndgen.exe: rndgen.c common.h libveckog.a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-libveckog.a: mem.o wre.o wmm.o wor.o dlasv2t.o common.o $(MKFS)
-	$(AR) $(ARFLAGS) $@ mem.o wre.o wmm.o wor.o dlasv2t.o common.o
+libveckog.a: kog.o mem.o wre.o wmm.o wor.o dlasv2t.o common.o $(MKFS)
+	$(AR) $(ARFLAGS) $@ kog.o mem.o wre.o wmm.o wor.o dlasv2t.o common.o
+
+kog.o: kog.c kog.h vec.h common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $<
 
 mem.o: mem.c mem.h vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
