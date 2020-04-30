@@ -2,12 +2,6 @@
 
 #include "vec.h"
 
-static inline void free_nil(double *d[static 1])
-{
-  free(*d);
-  *d = (double*)NULL;
-}
-
 double *Valloc(const size_t n)
 {
   const size_t V = n2V(n);
@@ -26,6 +20,12 @@ double *Valloc(const size_t n)
       exit(EXIT_FAILURE);
   }
   return d;
+}
+
+double *Vfree(double *const d)
+{
+  free(d);
+  return (double*)NULL;
 }
 
 Dmem *Dalloc(const size_t n)
@@ -64,37 +64,40 @@ Dmem *Dalloc(const size_t n)
   return d;
 }
 
-void Dfree(Dmem d[static 1])
+Dmem *Dfree(Dmem *const d)
 {
+  if (d) {
 #ifdef TEST_DLASV2
-  free_nil(&(d->t.V22));
-  free_nil(&(d->t.V12));
-  free_nil(&(d->t.V21));
-  free_nil(&(d->t.V11));
-  free_nil(&(d->t.U22));
-  free_nil(&(d->t.U12));
-  free_nil(&(d->t.U21));
-  free_nil(&(d->t.U11));
-  free_nil(&(d->t.R22));
-  free_nil(&(d->t.R12));
-  free_nil(&(d->t.R11));
+    d->t.V22 = Vfree(d->t.V22);
+    d->t.V12 = Vfree(d->t.V12);
+    d->t.V21 = Vfree(d->t.V21);
+    d->t.V11 = Vfree(d->t.V11);
+    d->t.U22 = Vfree(d->t.U22);
+    d->t.U12 = Vfree(d->t.U12);
+    d->t.U21 = Vfree(d->t.U21);
+    d->t.U11 = Vfree(d->t.U11);
+    d->t.R22 = Vfree(d->t.R22);
+    d->t.R12 = Vfree(d->t.R12);
+    d->t.R11 = Vfree(d->t.R11);
 #endif /* TEST_DLASV2 */
-  free_nil(&(d->v.s));
-  free_nil(&(d->v.S2));
-  free_nil(&(d->v.S1));
-  free_nil(&(d->r.V22));
-  free_nil(&(d->r.V12));
-  free_nil(&(d->r.V21));
-  free_nil(&(d->r.V11));
-  free_nil(&(d->r.U22));
-  free_nil(&(d->r.U12));
-  free_nil(&(d->r.U21));
-  free_nil(&(d->r.U11));
-  free_nil(&(d->r.A22));
-  free_nil(&(d->r.A12));
-  free_nil(&(d->r.A21));
-  free_nil(&(d->r.A11));
-  free(d);
+    d->v.s = Vfree(d->v.s);
+    d->v.S2 = Vfree(d->v.S2);
+    d->v.S1 = Vfree(d->v.S1);
+    d->r.V22 = Vfree(d->r.V22);
+    d->r.V12 = Vfree(d->r.V12);
+    d->r.V21 = Vfree(d->r.V21);
+    d->r.V11 = Vfree(d->r.V11);
+    d->r.U22 = Vfree(d->r.U22);
+    d->r.U12 = Vfree(d->r.U12);
+    d->r.U21 = Vfree(d->r.U21);
+    d->r.U11 = Vfree(d->r.U11);
+    d->r.A22 = Vfree(d->r.A22);
+    d->r.A12 = Vfree(d->r.A12);
+    d->r.A21 = Vfree(d->r.A21);
+    d->r.A11 = Vfree(d->r.A11);
+    free(d);
+  }
+  return (Dmem*)NULL;
 }
 
 Zmem *Zalloc(const size_t n)
@@ -145,47 +148,50 @@ Zmem *Zalloc(const size_t n)
   return z;
 }
 
-void Zfree(Zmem z[static 1])
+Zmem *Zfree(Zmem *const z)
 {
+  if (z) {
 #ifdef TEST_DLASV2
-  free_nil(&(z->t.V22));
-  free_nil(&(z->t.V12));
-  free_nil(&(z->t.V21));
-  free_nil(&(z->t.V11));
-  free_nil(&(z->t.U22));
-  free_nil(&(z->t.U12));
-  free_nil(&(z->t.U21));
-  free_nil(&(z->t.U11));
-  free_nil(&(z->t.R22));
-  free_nil(&(z->t.R12));
-  free_nil(&(z->t.R11));
+    z->t.V22 = Vfree(z->t.V22);
+    z->t.V12 = Vfree(z->t.V12);
+    z->t.V21 = Vfree(z->t.V21);
+    z->t.V11 = Vfree(z->t.V11);
+    z->t.U22 = Vfree(z->t.U22);
+    z->t.U12 = Vfree(z->t.U12);
+    z->t.U21 = Vfree(z->t.U21);
+    z->t.U11 = Vfree(z->t.U11);
+    z->t.R22 = Vfree(z->t.R22);
+    z->t.R12 = Vfree(z->t.R12);
+    z->t.R11 = Vfree(z->t.R11);
 #endif /* TEST_DLASV2 */
-  free_nil(&(z->v.s));
-  free_nil(&(z->v.S2));
-  free_nil(&(z->v.S1));
-  free_nil(&(z->i.V22));
-  free_nil(&(z->i.V12));
-  free_nil(&(z->i.V21));
-  free_nil(&(z->i.V11));
-  free_nil(&(z->i.U22));
-  free_nil(&(z->i.U12));
-  free_nil(&(z->i.U21));
-  free_nil(&(z->i.U11));
-  free_nil(&(z->i.A22));
-  free_nil(&(z->i.A12));
-  free_nil(&(z->i.A21));
-  free_nil(&(z->i.A11));
-  free_nil(&(z->r.V22));
-  free_nil(&(z->r.V12));
-  free_nil(&(z->r.V21));
-  free_nil(&(z->r.V11));
-  free_nil(&(z->r.U22));
-  free_nil(&(z->r.U12));
-  free_nil(&(z->r.U21));
-  free_nil(&(z->r.U11));
-  free_nil(&(z->r.A22));
-  free_nil(&(z->r.A12));
-  free_nil(&(z->r.A21));
-  free_nil(&(z->r.A11));
-  free(z);
+    z->v.s = Vfree(z->v.s);
+    z->v.S2 = Vfree(z->v.S2);
+    z->v.S1 = Vfree(z->v.S1);
+    z->i.V22 = Vfree(z->i.V22);
+    z->i.V12 = Vfree(z->i.V12);
+    z->i.V21 = Vfree(z->i.V21);
+    z->i.V11 = Vfree(z->i.V11);
+    z->i.U22 = Vfree(z->i.U22);
+    z->i.U12 = Vfree(z->i.U12);
+    z->i.U21 = Vfree(z->i.U21);
+    z->i.U11 = Vfree(z->i.U11);
+    z->i.A22 = Vfree(z->i.A22);
+    z->i.A12 = Vfree(z->i.A12);
+    z->i.A21 = Vfree(z->i.A21);
+    z->i.A11 = Vfree(z->i.A11);
+    z->r.V22 = Vfree(z->r.V22);
+    z->r.V12 = Vfree(z->r.V12);
+    z->r.V21 = Vfree(z->r.V21);
+    z->r.V11 = Vfree(z->r.V11);
+    z->r.U22 = Vfree(z->r.U22);
+    z->r.U12 = Vfree(z->r.U12);
+    z->r.U21 = Vfree(z->r.U21);
+    z->r.U11 = Vfree(z->r.U11);
+    z->r.A22 = Vfree(z->r.A22);
+    z->r.A12 = Vfree(z->r.A12);
+    z->r.A21 = Vfree(z->r.A21);
+    z->r.A11 = Vfree(z->r.A11);
+    free(z);
+  }
+  return (Zmem*)NULL;
 }

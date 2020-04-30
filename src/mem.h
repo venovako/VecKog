@@ -37,10 +37,12 @@ typedef struct {
 } Zmem;
 
 extern double *Valloc(const size_t n);
+extern double *Vfree(double *const d);
 
 extern Dmem *Dalloc(const size_t n);
-extern void Dfree(Dmem d[static 1]);
+extern Dmem *Dfree(Dmem *const d);
+
 extern Zmem *Zalloc(const size_t n);
-extern void Zfree(Zmem z[static 1]);
+extern Zmem *Zfree(Zmem *const z);
 
 #endif /* !MEM_H */
