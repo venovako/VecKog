@@ -3,13 +3,13 @@
 
 #include "common.h"
 
+/*** redefine if changing the vector type ***/
+
 #ifdef __AVX512F__
 #include <immintrin.h>
 #else /* !__AVX512F__ */
 #error AVX-512 instructions not available
 #endif /* ?__AVX512F__ */
-
-/*** redefine if changing the vector type ***/
 
 /* vector type containing doubles */
 #ifdef VD
@@ -46,12 +46,26 @@
 #define VA 64u
 #endif /* ?VA */
 
+/* mask type for double lanes */
+#ifdef MD
+#error MD already defined
+#else /* !MD */
+#define MD __mmask8
+#endif /* ?MD */
+
 /* vector instruction name */
 #ifdef VI
 #error VI already defined
 #else /* !VI */
 #define VI(x) _mm512_##x##_pd
 #endif /* ?VI */
+
+/* <-comparison */
+#ifdef LT
+#error LT already defined
+#else /* !LT */
+#define LT _mm512_cmplt_pd_mask
+#endif /* ?LT */
 
 /*** end of vector definitions ***/
 
