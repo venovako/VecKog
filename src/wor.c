@@ -1,5 +1,7 @@
 #include "wor.h"
 
+#include "wcmplx.h"
+
 wide wdor
 (const double u11, const double u21, const double u12, const double u22)
 {

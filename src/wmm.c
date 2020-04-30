@@ -1,5 +1,7 @@
 #include "wmm.h"
 
+#include "wcmplx.h"
+
 wide wdmm
 (const double a11, const double a21, const double a12, const double a22,
  const double u11, const double u21, const double u12, const double u22,

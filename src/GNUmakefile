@@ -23,10 +23,10 @@ mem.o: mem.c mem.h vec.h common.h $(MKFS)
 wre.o: wre.c wre.h wmm.h wor.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
 
-wmm.o: wmm.c wmm.h common.h $(MKFS)
+wmm.o: wmm.c wmm.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
 
-wor.o: wor.c wor.h common.h $(MKFS)
+wor.o: wor.c wor.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $<
 
 dlasv2t.o: dlasv2t.c dlasv2t.h common.h $(MKFS)
