@@ -10,9 +10,9 @@ typedef struct {
 } matrices;
 
 typedef struct {
-  double *R11, *R12, *R22; /* F, G, H */
-  double *U11, *U21, *U12, *U22;
-  double *V11, *V21, *V12, *V22;
+  double *r11, *r12, *r22; /* F, G, H */
+  double *u11, *u21, *u12, *u22;
+  double *v11, *v21, *v12, *v22;
 } triang;
 
 typedef struct {

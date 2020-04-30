@@ -18,10 +18,8 @@ wide wdor
 }
 
 wide wzor
-(const double u11r, const double u11i,
- const double u21r, const double u21i,
- const double u12r, const double u12i,
- const double u22r, const double u22i)
+(const double u11r, const double u11i, const double u21r, const double u21i,
+ const double u12r, const double u12i, const double u22r, const double u22i)
 {
   wide D11, D22, D21r, D21i, D12r, D12i, tr, ti;
 

@@ -9,9 +9,7 @@ extern wide wdor
 
 /* Computes || U^H U - I ||_F in wide precision. */
 extern wide wzor
-(const double u11r, const double u11i,
- const double u21r, const double u21i,
- const double u12r, const double u12i,
- const double u22r, const double u22i);
+(const double u11r, const double u11i, const double u21r, const double u21i,
+ const double u12r, const double u12i, const double u22r, const double u22i);
 
 #endif /* !WOR_H */
