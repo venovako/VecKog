@@ -6,12 +6,18 @@ MKFS=GNUmakefile $(CPU).mk
 
 .PHONY: all help clean
 
-all: libveckog.a rndgen.exe
+all: libveckog.a rndgen.exe d8svd2t.exe z8svd2t.exe
 
 help:
 	@echo "gmake [CPU=x200|x64] [NDEBUG=0|1|2|3|4|5] [PROFILE=p] [all|clean|help]"
 
-rndgen.exe: rndgen.c common.h libveckog.a $(MKFS)
+rndgen.exe: rndgen.c libveckog.a $(MKFS)
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+d8svd2t.exe: d8svd2t.c libveckog.a $(MKFS)
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+z8svd2t.exe: z8svd2t.c libveckog.a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 libveckog.a: kog.o mem.o vec.o wre.o wmm.o wor.o dlasv2t.o common.o $(MKFS)
@@ -47,7 +53,10 @@ clean:
 	-$(RM) wor.o
 	-$(RM) wmm.o
 	-$(RM) wre.o
+	-$(RM) vec.o
 	-$(RM) mem.o
+	-$(RM) kog.o
 	-$(RM) libveckog.a
 	-$(RM) rndgen.exe
-	-$(RM) dlasv2t.exe
+	-$(RM) d8svd2t.exe
+	-$(RM) z8svd2t.exe
