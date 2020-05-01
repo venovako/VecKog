@@ -25,3 +25,51 @@ size_t atoz(const char *const s)
   const size_t z = ((s && *s) ? (size_t)strtoull(s, &e, 0) : (size_t)0u);
   return ((e && *e) ? (size_t)0u : z);
 }
+
+char *dtos(char s[static 26], const double x)
+{
+  int l = sprintf((char*)memset(s, 0, 26u), "%# -25.17E", x);
+  if (l <= 0)
+    return (char*)NULL;
+  char *d = s + 25;
+  for (--d; isblank(*d); --d)
+    *d = '\0';
+  char *e = strrchr(s, 'E');
+  if (!e)
+    return s;
+  e += 2;
+  l = (int)(strchr(e, '\0') - e);
+  if (l >= 3)
+    return s;
+  d = s + 25;
+  e += l;
+  for (int i = 0; i < l; ++i)
+    *--d = *--e;
+  for (--d; isdigit(*d); --d)
+    *d = '0';
+  return s;
+}
+
+char *xtos(char s[static 31], const long double x)
+{
+  int l = sprintf((char*)memset(s, 0, 31u), "%# -30.21LE", x);
+  if (l <= 0)
+    return (char*)NULL;
+  char *d = s + 30;
+  for (--d; isblank(*d); --d)
+    *d = '\0';
+  char *e = strrchr(s, 'E');
+  if (!e)
+    return s;
+  e += 2;
+  l = (int)(strchr(e, '\0') - e);
+  if (l >= 4)
+    return s;
+  d = s + 30;
+  e += l;
+  for (int i = 0; i < l; ++i)
+    *--d = *--e;
+  for (--d; isdigit(*d); --d)
+    *d = '0';
+  return s;
+}
