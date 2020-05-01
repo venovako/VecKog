@@ -1,4 +1,4 @@
-#include "vec.h"
+#include "kog.h"
 
 #include "dkog.c"
 #include "zkog.c"
