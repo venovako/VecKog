@@ -79,4 +79,16 @@ static inline size_t n2N(const size_t n)
   return (n2V(n) << VLlg);
 }
 
+extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
+
+#ifdef VP
+#error VP already defined
+#else /* !VP */
+#ifdef NDEBUG
+#define VP(v) 0
+#else /* DEBUG */
+#define VP(v) Vprintf(stderr, #v, (v))
+#endif /* ?NDEBUG */
+#endif /* ?VP */
+
 #endif /* !VEC_H */
