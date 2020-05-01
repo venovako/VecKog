@@ -24,7 +24,7 @@ int Vprintf(FILE f[static 1], const char *const h, const VD v)
       perror("sprintf");
       return -(int)(i + 4u);
     }
-    if (fprintf(f, "%u: %s\n", i, p) != 29) {
+    if (29 != fprintf(f, "%u: %s\n", i, p)) {
       perror("fprintf");
       return -(int)(i + 4u);
     }
@@ -49,7 +49,7 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
 
   const unsigned u = _cvtmask8_u32(m);
   for (unsigned i = 0u, o = (1u << VL_1); i < VL; ++i) {
-    if (fprintf(f, "%c", ((u & o) ? '1' : '0')) != 1) {
+    if (1 != fprintf(f, "%c", ((u & o) ? '1' : '0'))) {
       perror("fprintf");
       return -(int)(i + 4u);
     }
@@ -57,7 +57,7 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
     ++ret;
   }
 
-  if (fprintf(f, " (%u)\n", u) != 5) {
+  if (5 != fprintf(f, " (%u)\n", u)) {
     perror("fprintf");
     return -(int)(VL + 4u);
   }
