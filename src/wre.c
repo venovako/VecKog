@@ -65,3 +65,19 @@ void wzre
     }
   }
 }
+
+int Pwre(FILE f[static 1], const size_t n, const wide RE[static 1], const wide OU[static 1], const wide OV[static 1])
+{
+  int ret = fprintf(f, "\n\"N\",\"RE\",\"OU\",\"OV\"\n");
+  if (20 != ret)
+    return -1;
+
+  char s[31];
+  for (size_t i = (size_t)0u; i < n; ++i) {
+    ret += fprintf(f, "%zu,%s,", i, xtos(s, (long double)(RE[i])));
+    ret += fprintf(f, "%s,", xtos(s, (long double)(OU[i])));
+    ret += fprintf(f, "%s\n", xtos(s, (long double)(OV[i])));
+  }
+
+  return (fflush(f) ? -2 : ret);
+}
