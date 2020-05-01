@@ -10,6 +10,7 @@ void d8svd2_
   register const VD h = VI(set1)((double)(DBL_MAX_EXP - 3));
   register const VD m = VI(set1)(DBL_TRUE_MIN);
   register const VD m0 = VI(set1)(-0.0);
+  register const VD p0 = VI(setzero)();
   register const VD p1 = VI(set1)(+1.0);
 
   // load A from RAM
