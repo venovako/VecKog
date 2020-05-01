@@ -91,4 +91,16 @@ extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
 #endif /* ?NDEBUG */
 #endif /* ?VP */
 
+extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
+
+#ifdef MP
+#error MP already defined
+#else /* !MP */
+#ifdef NDEBUG
+#define MP(m) 0
+#else /* DEBUG */
+#define MP(m) Mprintf(stderr, #m, (m))
+#endif /* ?NDEBUG */
+#endif /* ?MP */
+
 #endif /* !VEC_H */
