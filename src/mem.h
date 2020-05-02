@@ -23,17 +23,21 @@ typedef struct {
 typedef struct {
   matrices r;
   vectors v;
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
   triang t;
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
 } Dmem;
 
 typedef struct {
   matrices r, i;
   vectors v;
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
   triang t;
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
 } Zmem;
 
 extern double *Valloc(const size_t n);

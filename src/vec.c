@@ -47,7 +47,13 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
     return -2;
   }
 
-  const unsigned u = _cvtmask8_u32(m);
+  const unsigned u =
+#ifdef USE_AVX512DQ
+    _cvtmask8_u32(m)
+#else /* AVX512F only */
+    _cvtmask16_u32((__mmask16)m)
+#endif /* ?USE_AVX512DQ */
+    ;
   for (unsigned i = 0u, o = (1u << VL_1); i < VL; ++i) {
     if (1 != fprintf(f, "%c", ((u & o) ? '1' : '0'))) {
       perror("fprintf");
@@ -57,11 +63,11 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
     ++ret;
   }
 
-  if (5 != fprintf(f, " (%u)\n", u)) {
+  if (6 != fprintf(f, " (%02X)\n", u)) {
     perror("fprintf");
     return -(int)(VL + 4u);
   }
-  ret += 5;
+  ret += 6;
 
   return (fflush(f) ? -3 : ret);
 }

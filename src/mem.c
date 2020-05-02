@@ -47,7 +47,8 @@ Dmem *Dalloc(const size_t n)
     d->v.S1 = Valloc(n);
     d->v.S2 = Valloc(n);
     d->v.s = Valloc(n);
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
     d->t.r11 = Valloc(n);
     d->t.r12 = Valloc(n);
     d->t.r22 = Valloc(n);
@@ -59,7 +60,8 @@ Dmem *Dalloc(const size_t n)
     d->t.v21 = Valloc(n);
     d->t.v12 = Valloc(n);
     d->t.v22 = Valloc(n);
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
   }
   return d;
 }
@@ -67,7 +69,8 @@ Dmem *Dalloc(const size_t n)
 Dmem *Dfree(Dmem *const d)
 {
   if (d) {
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
     d->t.v22 = Vfree(d->t.v22);
     d->t.v12 = Vfree(d->t.v12);
     d->t.v21 = Vfree(d->t.v21);
@@ -79,7 +82,8 @@ Dmem *Dfree(Dmem *const d)
     d->t.r22 = Vfree(d->t.r22);
     d->t.r12 = Vfree(d->t.r12);
     d->t.r11 = Vfree(d->t.r11);
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
     d->v.s = Vfree(d->v.s);
     d->v.S2 = Vfree(d->v.S2);
     d->v.S1 = Vfree(d->v.S1);
@@ -131,7 +135,8 @@ Zmem *Zalloc(const size_t n)
     z->v.S1 = Valloc(n);
     z->v.S2 = Valloc(n);
     z->v.s = Valloc(n);
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
     z->t.r11 = Valloc(n);
     z->t.r12 = Valloc(n);
     z->t.r22 = Valloc(n);
@@ -143,7 +148,8 @@ Zmem *Zalloc(const size_t n)
     z->t.v21 = Valloc(n);
     z->t.v12 = Valloc(n);
     z->t.v22 = Valloc(n);
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
   }
   return z;
 }
@@ -151,7 +157,8 @@ Zmem *Zalloc(const size_t n)
 Zmem *Zfree(Zmem *const z)
 {
   if (z) {
-#ifdef TEST_DLASV2
+#ifdef TEST
+#if (TEST == 2)
     z->t.v22 = Vfree(z->t.v22);
     z->t.v12 = Vfree(z->t.v12);
     z->t.v21 = Vfree(z->t.v21);
@@ -163,7 +170,8 @@ Zmem *Zfree(Zmem *const z)
     z->t.r22 = Vfree(z->t.r22);
     z->t.r12 = Vfree(z->t.r12);
     z->t.r11 = Vfree(z->t.r11);
-#endif /* TEST_DLASV2 */
+#endif /* TEST == 2 */
+#endif /* TEST */
     z->v.s = Vfree(z->v.s);
     z->v.S2 = Vfree(z->v.S2);
     z->v.S1 = Vfree(z->v.S1);

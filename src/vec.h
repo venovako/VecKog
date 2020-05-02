@@ -84,11 +84,15 @@ extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
 #ifdef VP
 #error VP already defined
 #else /* !VP */
-#ifdef NDEBUG
-#define VP(v) 0
-#else /* DEBUG */
+#ifdef TEST
+#if (TEST == 0)
 #define VP(v) Vprintf(stderr, #v, (v))
-#endif /* ?NDEBUG */
+#else /* TEST != 0 */
+#define VP(v) 0
+#endif /* TEST ?= 0 */
+#else /* !TEST */
+#define VP(v) 0
+#endif /* ?TEST */
 #endif /* ?VP */
 
 extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
@@ -96,11 +100,15 @@ extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
 #ifdef MP
 #error MP already defined
 #else /* !MP */
-#ifdef NDEBUG
-#define MP(m) 0
-#else /* DEBUG */
+#ifdef TEST
+#if (TEST == 0)
 #define MP(m) Mprintf(stderr, #m, (m))
-#endif /* ?NDEBUG */
+#else /* TEST != 0 */
+#define MP(m) 0
+#endif /* TEST ?= 0 */
+#else /* !TEST */
+#define MP(m) 0
+#endif /* ?TEST */
 #endif /* ?MP */
 
 #endif /* !VEC_H */

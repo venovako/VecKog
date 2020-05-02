@@ -48,7 +48,7 @@ void d8svd2_
 
   // column-permute
   register VD a11r_ = VI(mask_blend)(c, a11r, a12r); VP(a11r_);
-  register VD a11__ = VI(mask_blend)(c, a11_, a12_); VP(a22__);
+  register VD a11__ = VI(mask_blend)(c, a11_, a12_); VP(a11__);
   register VD a12r_ = VI(mask_blend)(c, a12r, a11r); VP(a12r_);
   register VD a12__ = VI(mask_blend)(c, a12_, a11_); VP(a12__);
   register VD a1__ = VI(mask_blend)(c, a1_, a2_); VP(a1__);
@@ -75,7 +75,7 @@ void d8svd2_
   a11r_ = VI(or)(p1, VI(and)(a11r, m0)); VP(a11r_);
 
   // d22
-  a21r_ = VI(or)(p1, VI(and)(a21r, m0)); VP(a11i_);
+  a21r_ = VI(or)(p1, VI(and)(a21r, m0)); VP(a21r_);
 
   // a12'''
   a12r_ = VI(xor)(VI(and)(a11r_, m0), a12r); VP(a12r_);
