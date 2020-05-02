@@ -119,12 +119,12 @@ void z8svd2_
   a11r = a1_; VP(a11r);
 
   // r12'
-  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); //VP(a12r);
-  a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); //VP(a12i);
+  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
+  a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); VP(a12i);
 
   // r22''
-  a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); //VP(a22r);
-  a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); //VP(a22i);
+  a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
+  a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); VP(a22i);
 
   // \tilde{d}22 -> a12r/i_
   // \hat{d}22 -> a22r/i_

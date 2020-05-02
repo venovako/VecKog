@@ -91,10 +91,10 @@ void d8svd2_
   a11r = a1_; VP(a11r);
 
   // r12'
-  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); //VP(a12r);
+  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
 
   // r22''
-  a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); //VP(a22r);
+  a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
 
   // \tilde{d}22 -> a12r_
   // \hat{d}22 -> a22r_
