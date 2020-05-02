@@ -76,7 +76,6 @@ void z8svd2_
   register VD a22r_ = VI(mask_blend)(c, a22r, a21r); VP(a22r_);
   register VD a22i_ = VI(mask_blend)(c, a22i, a21i); VP(a22i_);
   register VD a22__ = VI(mask_blend)(c, a22_, a21_); VP(a22__);
-  register VD a2__ = VI(mask_blend)(c, a2_, a1_); VP(a2__);
 
   // <-compare a11__ and a21__
   register const MD r = LT(a11__, a21__); MP(r);
@@ -103,40 +102,35 @@ void z8svd2_
   a21r_ = VI(or)(VI(min)(VI(div)(VI(abs)(a21r), a21_), p1), VI(and)(a21r, m0)); VP(a21r_);
   a21i_ = VI(div)(a21i, VI(max)(a21_, m)); VP(a21i_);
 
-  // e11i = -cimag(d11)
-  e11i = VI(xor)(a11i_, m0); VP(e11i);
-  // e21i = -cimag(d22)
-  e21i = VI(xor)(a21i_, m0); VP(e21i);
-
   // a12'''
   a12r_ = VI(fmsub)(a11r_, a12r, VI(mul)(e11i, a12i)); VP(a12r_);
   a12i_ = VI(fmadd)(a11r_, a12i, VI(mul)(e11i, a12r)); VP(a12i_);
 
   // a22'''
-  a22r_ = VI(fmsub)(a21r_, a22r, VI(mul)(e21i, a22i)); VP(a22r_);
-  a22i_ = VI(fmadd)(a21r_, a22i, VI(mul)(e21i, a22r)); VP(a22i_);
+  a22r_ = VI(fmadd)(a21r_, a22r, VI(mul)(a21i_, a22i)); VP(a22r_);
+  a22i_ = VI(fmsub)(a21r_, a22i, VI(mul)(a21i_, a22r)); VP(a22i_);
 
-  // \mp\tan(\alpha)
+  // -\tan(\alpha)
   register const VD _ta = VI(max)(VI(div)(a21_, a11_), p0); VP(_ta);
-  register const VD ta = VI(xor)(_ta, m0); VP(ta);
   // \cos(\alpha)
-  register const VD ca = VI(invsqrt)(VI(fmadd)(ta, ta, p1)); VP(ca);
+  register const VD ca = VI(invsqrt)(VI(fmadd)(_ta, _ta, p1)); VP(ca);
 
   // r11
   a11r = a1_; VP(a11r);
 
   // r12'
-  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
-  a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); VP(a12i);
+  a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); //VP(a12r);
+  a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); //VP(a12i);
 
   // r22''
-  a22r = VI(mul)(ca, VI(fmadd)(ta, a12r_, a22r_)); VP(a22r);
-  a22i = VI(mul)(ca, VI(fmadd)(ta, a12i_, a22i_)); VP(a22i);
+  a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); //VP(a22r);
+  a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); //VP(a22i);
 
   // \tilde{d}22 -> a12r/i_
   // \hat{d}22 -> a22r/i_
 
-  register VD s1, s2;
+  register VD s1 = VI(setzero)();
+  register VD s2 = VI(setzero)();
 #ifdef BACKSCALE
   // optional backscaling by -s
   s = VI(xor)(s, m0); VP(s);

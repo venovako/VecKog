@@ -4,20 +4,20 @@ int Vprintf(FILE f[static 1], const char *const h, const VD v)
 {
   alignas(VA) double d[VL];
 
-  if (fflush(f)) {
-    perror("fflush");
-    return -1;
-  }
-
   int ret = (h ? fprintf(f, "\nL: %s\n", h) : 0);
   if (ret < 0) {
     perror("fprintf");
+    return -1;
+  }
+
+  if (fflush(f)) {
+    perror("fflush");
     return -2;
   }
 
   VI(store)(d, v);
-  char s[26];
 
+  char s[26];
   for (unsigned i = 0u; i < VL; ++i) {
     char *const p = dtos(s, d[i]);
     if (!p) {
