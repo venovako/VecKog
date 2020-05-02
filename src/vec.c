@@ -47,13 +47,7 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
     return -2;
   }
 
-  const unsigned u =
-#ifdef USE_AVX512DQ
-    _cvtmask8_u32(m)
-#else /* AVX512F only */
-    _cvtmask16_u32((__mmask16)m)
-#endif /* ?USE_AVX512DQ */
-    ;
+  const unsigned u = M2U(m);
   for (unsigned i = 0u, o = (1u << VL_1); i < VL; ++i) {
     if (1 != fprintf(f, "%c", ((u & o) ? '1' : '0'))) {
       perror("fprintf");

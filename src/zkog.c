@@ -95,11 +95,11 @@ void z8svd2_
   a22_ = VI(mask_blend)(r, a22__, a12__); VP(a22_);
 
   // d11
-  a11r_ = VI(or)(VI(min)(VI(div)(VI(abs)(a11r), a11_), p1), VI(and)(a11r, m0)); VP(a11r_);
+  a11r_ = OR(VI(min)(VI(div)(VI(abs)(a11r), a11_), p1), AND(a11r, m0)); VP(a11r_);
   a11i_ = VI(div)(a11i, VI(max)(a11_, m)); VP(a11i_);
 
   // d22
-  a21r_ = VI(or)(VI(min)(VI(div)(VI(abs)(a21r), a21_), p1), VI(and)(a21r, m0)); VP(a21r_);
+  a21r_ = OR(VI(min)(VI(div)(VI(abs)(a21r), a21_), p1), AND(a21r, m0)); VP(a21r_);
   a21i_ = VI(div)(a21i, VI(max)(a21_, m)); VP(a21i_);
 
   // a12'''
@@ -133,7 +133,7 @@ void z8svd2_
   register VD s2 = VI(setzero)();
 #ifdef BACKSCALE
   // optional backscaling by -s
-  s = VI(xor)(s, m0); VP(s);
+  s = XOR(s, m0); VP(s);
   // backscale the singular values
   s1 = VI(scalef)(s1, s); VP(s1);
   s2 = VI(scalef)(s2, s); VP(s2);

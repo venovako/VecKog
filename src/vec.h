@@ -67,6 +67,34 @@
 #define LT _mm512_cmplt_pd_mask
 #endif /* ?LT */
 
+#ifdef AND
+#error AND already defined
+#endif /* AND */
+
+#ifdef OR
+#error OR already defined
+#endif /* OR */
+
+#ifdef XOR
+#error XOR already defined
+#endif /* XOR */
+
+#ifdef M2U
+#error M2U already defined
+#endif /* M2U */
+
+#ifdef __AVX512DQ__
+#define AND(x,y) VI(and)((x), (y))
+#define OR(x,y) VI(or)((x), (y))
+#define XOR(x,y) VI(xor)((x), (y))
+#define M2U(m) _cvtmask8_u32(m)
+#else /* AVX512F only */
+#define AND(x,y) _mm512_castsi512_pd(_mm512_and_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
+#define OR(x,y) _mm512_castsi512_pd(_mm512_or_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
+#define XOR(x,y) _mm512_castsi512_pd(_mm512_xor_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
+#define M2U(m) _cvtmask16_u32((__mmask16)(m))
+#endif /* __AVX512DQ__ */
+
 /*** end of vector definitions ***/
 
 static inline size_t n2V(const size_t n)
@@ -85,11 +113,11 @@ extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
 #error VP already defined
 #else /* !VP */
 #ifdef TEST
-#if (TEST == 0)
+#if ((TEST == 0) || (TEST == 1))
 #define VP(v) Vprintf(stderr, #v, (v))
-#else /* TEST != 0 */
+#else /* TEST < 0 or TEST > 1 */
 #define VP(v) 0
-#endif /* TEST ?= 0 */
+#endif /* TEST ?in {0,1} */
 #else /* !TEST */
 #define VP(v) 0
 #endif /* ?TEST */
@@ -101,11 +129,11 @@ extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
 #error MP already defined
 #else /* !MP */
 #ifdef TEST
-#if (TEST == 0)
+#if ((TEST == 0) || (TEST == 1))
 #define MP(m) Mprintf(stderr, #m, (m))
-#else /* TEST != 0 */
+#else /* TEST < 0 or TEST > 1 */
 #define MP(m) 0
-#endif /* TEST ?= 0 */
+#endif /* TEST ?in {0,1} */
 #else /* !TEST */
 #define MP(m) 0
 #endif /* ?TEST */
