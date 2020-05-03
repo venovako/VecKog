@@ -3,7 +3,7 @@
   register const VD y = VI(max)(VI(div)(a22r, a11r), p0); VP(y);
 
   // tan(2\varphi), tan(\varphi)
-  register const VD t2u = OR(VI(max)(VI(div)(VI(mul)(VI(scalef)(VI(min)(x, y), p1), VI(max)(x, y)), VI(fmadd)(VI(sub)(x, y), VI(add)(x, y), p1)), p0), m0); VP(t2u);
+  register const VD t2u = OR(VI(min)(VI(max)(VI(div)(VI(mul)(VI(scalef)(VI(min)(x, y), p1), VI(max)(x, y)), VI(fmadd)(VI(sub)(x, y), VI(add)(x, y), p1)), p0), VI(scalef)(p1, VI(set1)((double)(DBL_MANT_DIG + 1)))), m0); VP(t2u);
   register const VD tu = VI(div)(t2u, VI(add)(p1, VI(sqrt)(VI(fmadd)(t2u, t2u, p1)))); VP(tu);
 
   // sec^2(\varphi), cos(\varphi)
