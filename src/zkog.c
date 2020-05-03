@@ -103,8 +103,8 @@ void z8svd2_
   a21i_ = VI(div)(a21i, VI(max)(a21_, m)); VP(a21i_);
 
   // a12'''
-  a12r_ = VI(fmsub)(a11r_, a12r, VI(mul)(e11i, a12i)); VP(a12r_);
-  a12i_ = VI(fmadd)(a11r_, a12i, VI(mul)(e11i, a12r)); VP(a12i_);
+  a12r_ = VI(fmadd)(a11r_, a12r, VI(mul)(a11i_, a12i)); VP(a12r_);
+  a12i_ = VI(fmsub)(a11r_, a12i, VI(mul)(a11i_, a12r)); VP(a12i_);
 
   // a22'''
   a22r_ = VI(fmadd)(a21r_, a22r, VI(mul)(a21i_, a22i)); VP(a22r_);
