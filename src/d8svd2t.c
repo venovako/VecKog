@@ -24,29 +24,10 @@ static wide RE[VL];
 static wide OU[VL];
 static wide OV[VL];
 
-static unsigned Vfread(double v[static VL], FILE f[static 1])
-{
-  const unsigned ret = (unsigned)fread(v, sizeof(double), (size_t)VL, f);
-  if (VL != ret) {
-    perror("fread");
-    return ret;
-  }
-
-  for (unsigned i = 0u; i < VL; ++i) {
-    while (!isfinite(v[i])) {
-      if ((size_t)1u != fread(v + i, sizeof(double), (size_t)1u, f)) {
-        perror("fread");
-        return i;
-      }
-    }
-  }
-  return ret;
-}
-
 int main(int argc, char *argv[])
 {
-  if (2 != argc) {
-    (void)fprintf(stderr, "%s N\n", argv[0]);
+  if (3 != argc) {
+    (void)fprintf(stderr, "%s N FileName\n", argv[0]);
     return EXIT_FAILURE;
   }
   const size_t n = atoz(argv[1]);
@@ -54,8 +35,8 @@ int main(int argc, char *argv[])
     perror("atoz");
     return EXIT_FAILURE;
   }
-  FILE *const r = fopen("/dev/urandom", "rb");
-  if (!r) {
+  FILE *const f = fopen(argv[2], "rb");
+  if (!f) {
     perror("fopen");
     return EXIT_FAILURE;
   }
@@ -63,19 +44,19 @@ int main(int argc, char *argv[])
   for (size_t i = (size_t)0u; i < n; ) {
     (void)fprintf(stdout, "run %zu ", i);
     (void)fflush(stdout);
-    if (VL != Vfread(A11r, r))
+    if ((size_t)1u != Vread(A11r, (size_t)1u, f))
       return EXIT_FAILURE;
     (void)fprintf(stdout, ".");
     (void)fflush(stdout);
-    if (VL != Vfread(A21r, r))
+    if ((size_t)1u != Vread(A21r, (size_t)1u, f))
       return EXIT_FAILURE;
     (void)fprintf(stdout, ".");
     (void)fflush(stdout);
-    if (VL != Vfread(A12r, r))
+    if ((size_t)1u != Vread(A12r, (size_t)1u, f))
       return EXIT_FAILURE;
     (void)fprintf(stdout, ".");
     (void)fflush(stdout);
-    if (VL != Vfread(A22r, r))
+    if ((size_t)1u != Vread(A22r, (size_t)1u, f))
       return EXIT_FAILURE;
     (void)fprintf(stdout, ".\n");
     (void)fflush(stdout);
@@ -98,7 +79,7 @@ int main(int argc, char *argv[])
       (void)fprintf(stdout, "\n");
   }
 
-  if (fclose(r)) {
+  if (fclose(f)) {
     perror("fclose");
     return EXIT_FAILURE;
   }
