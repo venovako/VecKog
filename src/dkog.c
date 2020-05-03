@@ -112,21 +112,5 @@ void d8svd2_
   // r22
   a22r = a22_; VP(a22r);
 
-  register VD s1 = VI(setzero)();
-  register VD s2 = VI(setzero)();
-#ifdef BACKSCALE
-  // optional backscaling by -s
-  s = XOR(s, m0); VP(s);
-  // backscale the singular values
-  s1 = VI(scalef)(s1, s); VP(s1);
-  s2 = VI(scalef)(s2, s); VP(s2);
-  // set -0.0 as the scaling parameter
-  s = m0; VP(s);
-#endif /* BACKSCALE */
-
-  // store the singular values
-  VI(store)(S1, s1);
-  VI(store)(S2, s2);
-  // store the scaling parameters
-  VI(store)(S, s);
+#include "svd2.c"
 }
