@@ -96,8 +96,21 @@ void d8svd2_
   // r22''
   a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
 
-  // \tilde{d}22 -> a12r_
-  // \hat{d}22 -> a22r_
+  // \tilde{d}22
+  a12r_ = OR(p1, AND(a12r, m0)); VP(a12r_);
+
+  // r12
+  a12r = VI(abs)(a12r); VP(a12r);
+
+  // r22'
+  a22r_ = XOR(a22r, AND(a12r_, m0)); VP(a22r_);
+  a22_ = VI(abs)(a22r_); VP(a22_);
+
+  // \hat{d}22
+  a22r_ = OR(p1, AND(a22r_, m0)); VP(a22r_);
+
+  // r22
+  a22r = a22_; VP(a22r);
 
   register VD s1 = VI(setzero)();
   register VD s2 = VI(setzero)();

@@ -121,13 +121,30 @@ void z8svd2_
   // r12'
   a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
   a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); VP(a12i);
+  a12_ = VI(hypot)(a12r, a12i);
 
   // r22''
   a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
   a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); VP(a22i);
 
-  // \tilde{d}22 -> a12r/i_
-  // \hat{d}22 -> a22r/i_
+  // \tilde{d}22
+  a12r_ = OR(VI(min)(VI(div)(VI(abs)(a12r), a12_), p1), AND(a12r, m0)); VP(a12r_);
+  a12i_ = VI(div)(a12i, VI(max)(a12_, m)); VP(a12i_);
+
+  // r12
+  a12r = a12_; VP(a12r);
+
+  // r22'
+  a22r_ = VI(fmsub)(a22r, a12r_, VI(mul)(a22i, a12i_)); VP(a22r_);
+  a22i_ = VI(fmadd)(a22i, a12r_, VI(mul)(a22r, a12i_)); VP(a22i_);
+  a22_ = VI(hypot)(a22r_, a22i_); VP(a22_);
+
+  // \hat{d}22
+  a22r_ = OR(VI(min)(VI(div)(VI(abs)(a22r_), a22_), p1), AND(a22r_, m0)); VP(a22r_);
+  a22i_ = VI(div)(a22i_, VI(max)(a22_, m)); VP(a22i_);
+
+  // r22
+  a22r = a22_; VP(a22r);
 
   register VD s1 = VI(setzero)();
   register VD s2 = VI(setzero)();
