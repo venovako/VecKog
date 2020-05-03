@@ -139,4 +139,7 @@ extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
 #endif /* ?TEST */
 #endif /* ?MP */
 
+extern size_t Vread(double d[static VL], const size_t V, FILE f[static 1]);
+extern size_t Vwrite(const double d[static VL], const size_t V, FILE f[static 1]);
+
 #endif /* !VEC_H */

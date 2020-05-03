@@ -65,3 +65,13 @@ int Mprintf(FILE f[static 1], const char *const h, const MD m)
 
   return (fflush(f) ? -3 : ret);
 }
+
+size_t Vread(double d[static VL], const size_t V, FILE f[static 1])
+{
+  return fread(d, sizeof(double) * VL, V, f);
+}
+
+size_t Vwrite(const double d[static VL], const size_t V, FILE f[static 1])
+{
+  return fwrite(d, sizeof(double) * VL, V, f);
+}
