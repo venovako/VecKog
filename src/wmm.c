@@ -19,12 +19,18 @@ wide wdmm
     U11 = ((wide)u11 * S1), U21 = ((wide)u21 * S1), U12 = ((wide)u12 * S2), U22 = ((wide)u22 * S2),
     V11 = (wide)v11, V21 = (wide)v12, V12 = (wide)v21, V22 = (wide)v22; /* transpose V */
 
+  const wide
+    A_F = hypotw(hypotw(A11, A21), hypotw(A12, A22));
+
   A11 = fmaw(U11, V11, fmaw(U12, V21, A11));
   A21 = fmaw(U21, V11, fmaw(U22, V21, A21));
   A12 = fmaw(U11, V12, fmaw(U12, V22, A12));
   A22 = fmaw(U21, V12, fmaw(U22, V22, A22));
 
-  return hypotw(hypotw(A11, A21), hypotw(A12, A22));
+  const wide
+    E_F = hypotw(hypotw(A11, A21), hypotw(A12, A22));
+
+  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : W_MONE) : (E_F / A_F));
 }
 
 wide wzmm
@@ -58,6 +64,9 @@ wide wzmm
     V12r = (wide)v21r, V12i = (wide)-v21i,
     V22r = (wide)v22r, V22i = (wide)-v22i;
 
+  const wide A_F =
+    hypotw(hypotw(hypotw(A11r, A11i), hypotw(A21r, A21i)), hypotw(hypotw(A12r, A12i), hypotw(A22r, A22i)));
+
   wfma(&r, &i, U12r, U12i, V21r, V21i, A11r, A11i);
   wfma(&A11r, &A11i, U11r, U11i, V11r, V11i, r, i);
 
@@ -70,5 +79,8 @@ wide wzmm
   wfma(&r, &i, U22r, U22i, V22r, V22i, A22r, A22i);
   wfma(&A22r, &A22i, U21r, U21i, V12r, V12i, r, i);
 
-  return hypotw(hypotw(hypotw(A11r, A11i), hypotw(A21r, A21i)), hypotw(hypotw(A12r, A12i), hypotw(A22r, A22i)));
+  const wide E_F =
+    hypotw(hypotw(hypotw(A11r, A11i), hypotw(A21r, A21i)), hypotw(hypotw(A12r, A12i), hypotw(A22r, A22i)));
+
+  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : W_MONE) : (E_F / A_F));
 }

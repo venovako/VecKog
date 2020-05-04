@@ -46,7 +46,6 @@ void d8svd2_
   register VD a11__ = VI(mask_blend)(c, a11_, a12_); VP(a11__);
   register VD a12r_ = VI(mask_blend)(c, a12r, a11r); VP(a12r_);
   register VD a12__ = VI(mask_blend)(c, a12_, a11_); VP(a12__);
-  register VD a1__ = VI(mask_blend)(c, a1_, a2_); VP(a1__);
   register VD a21r_ = VI(mask_blend)(c, a21r, a22r); VP(a21r_);
   register VD a21__ = VI(mask_blend)(c, a21_, a22_); VP(a21__);
   register VD a22r_ = VI(mask_blend)(c, a22r, a21r); VP(a22r_);
@@ -83,7 +82,7 @@ void d8svd2_
   register const VD ca = VI(invsqrt)(VI(fmadd)(_ta, _ta, p1)); VP(ca);
 
   // r11
-  a11r = a1_; VP(a11r);
+  a11r = VI(mask_blend)(c, a1_, a2_); VP(a11r);
 
   // r12'
   a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
