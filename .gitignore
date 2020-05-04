@@ -50,4 +50,5 @@
 *.optrpt
 
 # Data
+out/
 *.dbl
