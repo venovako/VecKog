@@ -6,57 +6,57 @@ MKFS=GNUmakefile $(CPU).mk
 
 .PHONY: all help clean
 
-all: libveckog$(DEBUG).a rndgen$(DEBUG).exe d8svd2t$(DEBUG).exe z8svd2t$(DEBUG).exe
+all: libveckog$(TEST)$(DEBUG).a rndgen$(TEST)$(DEBUG).exe d8svd2t$(TEST)$(DEBUG).exe z8svd2t$(TEST)$(DEBUG).exe
 
 help:
 	@echo "gmake [CPU=x200|x64] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2] [all|clean|help]"
 
-rndgen$(DEBUG).exe: rndgen.c libveckog$(DEBUG).a $(MKFS)
+rndgen$(TEST)$(DEBUG).exe: rndgen.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-d8svd2t$(DEBUG).exe: d8svd2t.c libveckog$(DEBUG).a $(MKFS)
+d8svd2t$(TEST)$(DEBUG).exe: d8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-z8svd2t$(DEBUG).exe: z8svd2t.c libveckog$(DEBUG).a $(MKFS)
+z8svd2t$(TEST)$(DEBUG).exe: z8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-libveckog$(DEBUG).a: kog$(DEBUG).o mem$(DEBUG).o vec$(DEBUG).o wre$(DEBUG).o wmm$(DEBUG).o wor$(DEBUG).o dlasv2t$(DEBUG).o common$(DEBUG).o $(MKFS)
-	$(AR) $(ARFLAGS) $@ kog$(DEBUG).o mem$(DEBUG).o vec$(DEBUG).o wre$(DEBUG).o wmm$(DEBUG).o wor$(DEBUG).o dlasv2t$(DEBUG).o common$(DEBUG).o
+libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o dlasv2t$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
+	$(AR) $(ARFLAGS) $@ kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o dlasv2t$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o
 
-kog$(DEBUG).o: kog.c kog.h dkog.c dkog.h zkog.c zkog.h kogp.c svd2.c vec.h common.h $(MKFS)
+kog$(TEST)$(DEBUG).o: kog.c kog.h dkog.c dkog.h zkog.c zkog.h kogp.c svd2.c vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-mem$(DEBUG).o: mem.c mem.h vec.h common.h $(MKFS)
+mem$(TEST)$(DEBUG).o: mem.c mem.h vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-vec$(DEBUG).o: vec.c vec.h common.h $(MKFS)
+vec$(TEST)$(DEBUG).o: vec.c vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-wre$(DEBUG).o: wre.c wre.h wmm.h wor.h common.h $(MKFS)
+wre$(TEST)$(DEBUG).o: wre.c wre.h wmm.h wor.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-wmm$(DEBUG).o: wmm.c wmm.h wcmplx.h common.h $(MKFS)
+wmm$(TEST)$(DEBUG).o: wmm.c wmm.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-wor$(DEBUG).o: wor.c wor.h wcmplx.h common.h $(MKFS)
+wor$(TEST)$(DEBUG).o: wor.c wor.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-dlasv2t$(DEBUG).o: dlasv2t.c dlasv2t.h common.h $(MKFS)
+dlasv2t$(TEST)$(DEBUG).o: dlasv2t.c dlasv2t.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-common$(DEBUG).o: common.c common.h $(MKFS)
+common$(TEST)$(DEBUG).o: common.c common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	-$(RM) common$(DEBUG).o
-	-$(RM) dlasv2t$(DEBUG).o
-	-$(RM) wor$(DEBUG).o
-	-$(RM) wmm$(DEBUG).o
-	-$(RM) wre$(DEBUG).o
-	-$(RM) vec$(DEBUG).o
-	-$(RM) mem$(DEBUG).o
-	-$(RM) kog$(DEBUG).o
-	-$(RM) libveckog$(DEBUG).a
-	-$(RM) rndgen$(DEBUG).exe
-	-$(RM) d8svd2t$(DEBUG).exe
-	-$(RM) z8svd2t$(DEBUG).exe
+	-$(RM) common$(TEST)$(DEBUG).o
+	-$(RM) dlasv2t$(TEST)$(DEBUG).o
+	-$(RM) wor$(TEST)$(DEBUG).o
+	-$(RM) wmm$(TEST)$(DEBUG).o
+	-$(RM) wre$(TEST)$(DEBUG).o
+	-$(RM) vec$(TEST)$(DEBUG).o
+	-$(RM) mem$(TEST)$(DEBUG).o
+	-$(RM) kog$(TEST)$(DEBUG).o
+	-$(RM) libveckog$(TEST)$(DEBUG).a
+	-$(RM) rndgen$(TEST)$(DEBUG).exe
+	-$(RM) d8svd2t$(TEST)$(DEBUG).exe
+	-$(RM) z8svd2t$(TEST)$(DEBUG).exe

@@ -24,5 +24,5 @@ DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -
 FPUFLAGS += -fp-stack-check
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L. -lveckog$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
+LDFLAGS=-L. -lveckog$(TEST)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
 CFLAGS=$(OPTFLAGS) $(DBGFLAGS) $(LIBFLAGS) $(C18FLAGS) $(FPUFLAGS)

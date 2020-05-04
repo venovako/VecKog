@@ -172,11 +172,11 @@ void z8svd2_
   s = VI(mul)(ca, cu); VP(s);
 
   // -tan(\alpha) * tan(\varphi)
-  ei = VI(mul)(_ta, tu); VP(ei);
+  er = VI(mul)(_ta, tu); VP(er);
 
   // u11
-  e11r = VI(mul)(s, VI(fmadd)(a22r_, ei, a11r_)); VP(e11r);
-  e11i = VI(mul)(s, VI(fmadd)(a22i_, ei, a11i_)); VP(e11i);
+  e11r = VI(mul)(s, VI(fmadd)(a22r_, er, a11r_)); VP(e11r);
+  e11i = VI(mul)(s, VI(fmadd)(a22i_, er, a11i_)); VP(e11i);
 
   // u21'
   er = VI(fnmadd)(a22r_, tu, _ta); VP(er);

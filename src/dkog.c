@@ -125,4 +125,34 @@ void d8svd2_
   VI(store)(V21r, VI(mask_blend)(c, e21r, e11r));
   VI(store)(V12r, VI(mask_blend)(c, e12r, e22r));
   VI(store)(V22r, VI(mask_blend)(c, e22r, e12r));
+
+  // cos(\alpha) * cos(\varphi)
+  s = VI(mul)(ca, cu); VP(s);
+
+  // \hat{d}22 * -tan(\alpha)
+  er = VI(mul)(a22r_, _ta); VP(er);
+
+  // s * d11
+  a11r = VI(mul)(s, a11r_); VP(a11r);
+
+  // s * d22
+  a21r = VI(mul)(s, a21r_); VP(a21r);
+
+  // u11
+  e11r = VI(mul)(a11r, VI(fmadd)(er, tu, p1)); VP(e11r);
+
+  // u21
+  e21r = VI(mul)(a21r, VI(fnmadd)(a22r_, tu, _ta)); VP(e21r);
+
+  // u12
+  e12r = VI(mul)(a11r, VI(fnmadd)(a22r_, _ta, tu)); VP(e12r);
+
+  // u22
+  e22r = VI(mul)(a21r, VI(fmadd)(_ta, tu, a22r_)); VP(e22r);
+
+  // P_r * U
+  VI(store)(U11r, VI(mask_blend)(r, e11r, e21r));
+  VI(store)(U21r, VI(mask_blend)(r, e21r, e11r));
+  VI(store)(U12r, VI(mask_blend)(r, e12r, e22r));
+  VI(store)(U22r, VI(mask_blend)(r, e22r, e12r));
 }
