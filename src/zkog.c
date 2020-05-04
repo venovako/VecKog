@@ -7,12 +7,7 @@ void z8svd2_
  double V12r[static VL], double V12i[static VL], double V22r[static VL], double V22i[static VL],
  double S1[static VL], double S2[static VL], double S[static VL])
 {
-  // constants
-  register const VD h = VI(set1)((double)(DBL_MAX_EXP - 3)); VP(h);
-  register const VD m = VI(set1)(DBL_TRUE_MIN); VP(m);
-  register const VD m0 = VI(set1)(-0.0); VP(m0);
-  register const VD p0 = VI(setzero)(); VP(p0);
-  register const VD p1 = VI(set1)(+1.0); VP(p1);
+#include "kogp.c"
 
   // load A from RAM
   register VD a11r = VI(load)(A11r); VP(a11r);
@@ -147,4 +142,74 @@ void z8svd2_
   a22r = a22_; VP(a22r);
 
 #include "svd2.c"
+
+  // v11
+  e11r = cv; VP(e11r);
+  e11i = p0; VP(e11i);
+
+  // v12
+  e12r = VI(mul)(cv, tv); VP(e12r);
+  e12i = p0; VP(e12i);
+
+  // v21
+  e21r = XOR(VI(mul)(e12r, a12r_), m0); VP(e21r);
+  e21i = XOR(VI(mul)(e12r, a12i_), m0); VP(e21i);
+
+  // v22
+  e22r = VI(mul)(cv, a12r_); VP(e22r);
+  e22i = VI(mul)(cv, a12i_); VP(e22i);
+
+  // P_c * V
+  VI(store)(V11r, VI(mask_blend)(c, e11r, e21r));
+  VI(store)(V11i, VI(mask_blend)(c, e11i, e21i));
+  VI(store)(V21r, VI(mask_blend)(c, e21r, e11r));
+  VI(store)(V21i, VI(mask_blend)(c, e21i, e11i));
+  VI(store)(V12r, VI(mask_blend)(c, e12r, e22r));
+  VI(store)(V12i, VI(mask_blend)(c, e12i, e22i));
+  VI(store)(V22r, VI(mask_blend)(c, e22r, e12r));
+  VI(store)(V22i, VI(mask_blend)(c, e22i, e12i));
+
+  // cos(\alpha) * cos(\varphi)
+  s = VI(mul)(ca, cu); VP(s);
+
+  // -tan(\alpha) * tan(\varphi)
+  ei = VI(mul)(_ta, tu); VP(ei);
+
+  // u11
+  e11r = VI(mul)(s, VI(fmadd)(a22r_, ei, a11r_)); VP(e11r);
+  e11i = VI(mul)(s, VI(fmadd)(a22i_, ei, a11i_)); VP(e11i);
+
+  // u21'
+  er = VI(fnmadd)(a22r_, tu, _ta); VP(er);
+  ei = VI(mul)(a22i_, tu); VP(ei);
+
+  // u21
+  e21r = VI(mul)(s, VI(fmadd)(a21r_, er, VI(mul)(a21i_, ei))); VP(e21r);
+  e21i = VI(mul)(s, VI(fnmadd)(a21r_, ei, VI(mul)(a21i_, er))); VP(e21i);
+
+  // u12'
+  er = VI(fnmadd)(a22r_, _ta, tu); VP(er);
+  ei = VI(mul)(a22i_, _ta); VP(ei);
+
+  // u12
+  e12r = VI(mul)(s, VI(fmadd)(a11r_, er, VI(mul)(a11i_, ei))); VP(e12i);
+  e12i = VI(mul)(s, VI(fnmadd)(a11r_, ei, VI(mul)(a11i_, er))); VP(e12i);
+
+  // u22'
+  er = VI(fmadd)(_ta, tu, a22r_); VP(er);
+  ei = a22i_; VP(ei);
+
+  // u22
+  e22r = VI(mul)(s, VI(fmsub)(a21r_, er, VI(mul)(a21i_, ei))); VP(e22r);
+  e22i = VI(mul)(s, VI(fmadd)(a21r_, ei, VI(mul)(a21i_, er))); VP(e22i);
+
+  // P_r * U
+  VI(store)(U11r, VI(mask_blend)(r, e11r, e21r));
+  VI(store)(U11i, VI(mask_blend)(r, e11i, e21i));
+  VI(store)(U21r, VI(mask_blend)(r, e21r, e11r));
+  VI(store)(U21i, VI(mask_blend)(r, e21i, e11i));
+  VI(store)(U12r, VI(mask_blend)(r, e12r, e22r));
+  VI(store)(U12i, VI(mask_blend)(r, e12i, e22i));
+  VI(store)(U22r, VI(mask_blend)(r, e22r, e12r));
+  VI(store)(U22i, VI(mask_blend)(r, e22i, e12i));
 }

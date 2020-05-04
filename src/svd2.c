@@ -1,5 +1,3 @@
-  register const VD twof = VI(set1)((double)(1ull << (DBL_MANT_DIG + 1))); VP(twof);
-
   // x, y
   register const VD x = VI(max)(VI(div)(a12r, a11r), p0); VP(x);
   register const VD y = VI(max)(VI(div)(a22r, a11r), p0); VP(y);
@@ -16,7 +14,7 @@
   register const VD tv = VI(fmsub)(y, tu, x); VP(tv);
   register const VD ssv = VI(fmadd)(tv, tv, p1); VP(ssv);
 
-  // cos(\psi), cos(\varphi)*cos(\psi)
+  // cos(\psi), cos(\varphi) * cos(\psi)
   register const VD cv = VI(invsqrt)(ssv); VP(cv);
   register const VD cucv = VI(mul)(cu, cv); VP(cucv);
 

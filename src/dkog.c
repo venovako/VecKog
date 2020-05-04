@@ -4,12 +4,7 @@ void d8svd2_
  double V11r[static VL], double V21r[static VL], double V12r[static VL], double V22r[static VL],
  double S1[static VL], double S2[static VL], double S[static VL])
 {
-  // constants
-  register const VD h = VI(set1)((double)(DBL_MAX_EXP - 3)); VP(h);
-  register const VD m = VI(set1)(DBL_TRUE_MIN); VP(m);
-  register const VD m0 = VI(set1)(-0.0); VP(m0);
-  register const VD p0 = VI(setzero)(); VP(p0);
-  register const VD p1 = VI(set1)(+1.0); VP(p1);
+#include "kogp.c"
 
   // load A from RAM
   register VD a11r = VI(load)(A11r); VP(a11r);
@@ -113,4 +108,22 @@ void d8svd2_
   a22r = a22_; VP(a22r);
 
 #include "svd2.c"
+
+  // v11
+  e11r = cv; VP(e11r);
+
+  // v12
+  e12r = VI(mul)(cv, tv); VP(e12r);
+
+  // v21
+  e21r = XOR(VI(mul)(e12r, a12r_), m0); VP(e21r);
+
+  // v22
+  e22r = VI(mul)(cv, a12r_); VP(e22r);
+
+  // P_c * V
+  VI(store)(V11r, VI(mask_blend)(c, e11r, e21r));
+  VI(store)(V21r, VI(mask_blend)(c, e21r, e11r));
+  VI(store)(V12r, VI(mask_blend)(c, e12r, e22r));
+  VI(store)(V22r, VI(mask_blend)(c, e22r, e12r));
 }
