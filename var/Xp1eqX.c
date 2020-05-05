@@ -10,6 +10,6 @@ int main()
   (void)printf("f=%d, (x==(x+1))=%d\n", DBL_MANT_DIG, (int)(x == (x + 1.0)));
   (void)printf("hypot(DBL_MAX,1)=%#.17e\n", hypot(DBL_MAX, 1.0));
   const double z = sqrt(DBL_MAX);
-  (void)printf("fma(sqrt(DBL_MAX),sqrt(DBL_MAX),1)=%#.17e\n", fma(z, z, 1.0));
+  (void)printf("sqrt(DBL_MAX)=%#.17e, fma(sqrt(DBL_MAX),sqrt(DBL_MAX),1)=%#.17e\n", z, fma(z, z, 1.0));
   return EXIT_SUCCESS;
 }
