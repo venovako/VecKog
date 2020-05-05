@@ -208,7 +208,7 @@ void z8svd2_
   ei = VI(mul)(a22i_, _ta); VP(ei);
 
   // u12
-  e12r = VI(fmadd)(a11r, er, VI(mul)(a11i, ei)); VP(e12i);
+  e12r = VI(fmadd)(a11r, er, VI(mul)(a11i, ei)); VP(e12r);
   e12i = VI(fnmadd)(a11r, ei, VI(mul)(a11i, er)); VP(e12i);
 
   // u22'
