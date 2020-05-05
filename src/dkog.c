@@ -98,13 +98,12 @@ void d8svd2_
 
   // r22'
   a22r_ = XOR(a22r, AND(a12r_, m0)); VP(a22r_);
-  a22_ = VI(abs)(a22r_); VP(a22_);
+
+  // r22
+  a22r = VI(abs)(a22r_); VP(a22r);
 
   // \hat{d}22
   a22r_ = OR(p1, AND(a22r_, m0)); VP(a22r_);
-
-  // r22
-  a22r = a22_; VP(a22r);
 
 #include "svd2.c"
 

@@ -115,7 +115,7 @@ void z8svd2_
   // r12'
   a12r = VI(mul)(ca, VI(fmadd)(_ta, a22r_, a12r_)); VP(a12r);
   a12i = VI(mul)(ca, VI(fmadd)(_ta, a22i_, a12i_)); VP(a12i);
-  a12_ = VI(hypot)(a12r, a12i);
+  a12_ = VI(hypot)(a12r, a12i); VP(a12_);
 
   // r22''
   a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
@@ -142,17 +142,22 @@ void z8svd2_
 
 #include "svd2.c"
 
+  // cos(\psi) * tan(\psi)
+  er = VI(mul)(cv, tv); VP(er);
+  // -er
+  ei = XOR(er, m0); VP(ei);
+
   // v11
   e11r = cv; VP(e11r);
   e11i = p0; VP(e11i);
 
-  // v12
-  e12r = VI(mul)(cv, tv); VP(e12r);
-  e12i = p0; VP(e12i);
-
   // v21
-  e21r = XOR(VI(mul)(e12r, a12r_), m0); VP(e21r);
-  e21i = XOR(VI(mul)(e12r, a12i_), m0); VP(e21i);
+  e21r = VI(mul)(ei, a12r_); VP(e21r);
+  e21i = VI(mul)(ei, a12i_); VP(e21i);
+
+  // v12
+  e12r = er; VP(e12r);
+  e12i = p0; VP(e12i);
 
   // v22
   e22r = VI(mul)(cv, a12r_); VP(e22r);
