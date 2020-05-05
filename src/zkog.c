@@ -174,33 +174,45 @@ void z8svd2_
   // -tan(\alpha) * tan(\varphi)
   er = VI(mul)(_ta, tu); VP(er);
 
+  // s * d11
+  a11r = VI(mul)(s, a11r_); VP(a11r);
+  a11i = VI(mul)(s, a11i_); VP(a11i);
+
+  // s * d22
+  a21r = VI(mul)(s, a21r_); VP(a21r);
+  a21i = VI(mul)(s, a21i_); VP(a21i);
+
+  // u11'
+  ei = VI(mul)(a22i_, er); VP(ei);
+  er = VI(fmadd)(a22r_, er, p1); VP(er);
+
   // u11
-  e11r = VI(mul)(s, VI(fmadd)(a22r_, er, a11r_)); VP(e11r);
-  e11i = VI(mul)(s, VI(fmadd)(a22i_, er, a11i_)); VP(e11i);
+  e11r = VI(fmsub)(a11r, er, VI(mul)(a11i, ei)); VP(e11r);
+  e11i = VI(fmadd)(a11r, ei, VI(mul)(a11i, er)); VP(e11i);
 
   // u21'
   er = VI(fnmadd)(a22r_, tu, _ta); VP(er);
   ei = VI(mul)(a22i_, tu); VP(ei);
 
   // u21
-  e21r = VI(mul)(s, VI(fmadd)(a21r_, er, VI(mul)(a21i_, ei))); VP(e21r);
-  e21i = VI(mul)(s, VI(fnmadd)(a21r_, ei, VI(mul)(a21i_, er))); VP(e21i);
+  e21r = VI(fmadd)(a21r, er, VI(mul)(a21i, ei)); VP(e21r);
+  e21i = VI(fnmadd)(a21r, ei, VI(mul)(a21i, er)); VP(e21i);
 
   // u12'
   er = VI(fnmadd)(a22r_, _ta, tu); VP(er);
   ei = VI(mul)(a22i_, _ta); VP(ei);
 
   // u12
-  e12r = VI(mul)(s, VI(fmadd)(a11r_, er, VI(mul)(a11i_, ei))); VP(e12i);
-  e12i = VI(mul)(s, VI(fnmadd)(a11r_, ei, VI(mul)(a11i_, er))); VP(e12i);
+  e12r = VI(fmadd)(a11r, er, VI(mul)(a11i, ei)); VP(e12i);
+  e12i = VI(fnmadd)(a11r, ei, VI(mul)(a11i, er)); VP(e12i);
 
   // u22'
   er = VI(fmadd)(_ta, tu, a22r_); VP(er);
   ei = a22i_; VP(ei);
 
   // u22
-  e22r = VI(mul)(s, VI(fmsub)(a21r_, er, VI(mul)(a21i_, ei))); VP(e22r);
-  e22i = VI(mul)(s, VI(fmadd)(a21r_, ei, VI(mul)(a21i_, er))); VP(e22i);
+  e22r = VI(fmsub)(a21r, er, VI(mul)(a21i, ei)); VP(e22r);
+  e22i = VI(fmadd)(a21r, ei, VI(mul)(a21i, er)); VP(e22i);
 
   // P_r * U
   VI(store)(U11r, VI(mask_blend)(r, e11r, e21r));
