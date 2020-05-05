@@ -20,6 +20,7 @@ static alignas(VA) double S1[VL];
 static alignas(VA) double S2[VL];
 static alignas(VA) double S[VL];
 
+static wide K2[VL];
 static wide RE[VL];
 static wide OU[VL];
 static wide OV[VL];
@@ -68,13 +69,13 @@ int main(int argc, char *argv[])
       S1, S2, S);
 
     wdre
-      ((size_t)VL, RE, OU, OV,
+      ((size_t)VL, K2, RE, OU, OV,
       A11r, A21r, A12r, A22r,
       U11r, U21r, U12r, U22r,
       V11r, V21r, V12r, V22r,
       S1, S2, S);
 
-    Pwre(stdout, (size_t)VL, RE, OU, OV);
+    Pwre(stdout, (size_t)VL, K2, RE, OU, OV);
     if (++i < n)
       (void)fprintf(stdout, "\n");
   }

@@ -6,10 +6,11 @@ wide wdmm
 (const double a11, const double a21, const double a12, const double a22,
  const double u11, const double u21, const double u12, const double u22,
  const double v11, const double v21, const double v12, const double v22,
- const double s1, const double s2, const double s)
+ const double s1, const double s2, const double s, wide k2[static 1])
 {
   wide S = W_ZERO, S1 = (wide)s1, S2 = (wide)s2,
     A11 = (wide)-a11, A21 = (wide)-a21, A12 = (wide)-a12, A22 = (wide)-a22;
+  *k2 = S1 / S2;
   if (s != 0.0) {
     S = (wide)-s;
     S1 = scalbw(S1, S);
@@ -30,7 +31,7 @@ wide wdmm
   const wide
     E_F = hypotw(hypotw(A11, A21), hypotw(A12, A22));
 
-  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : W_MONE) : (E_F / A_F));
+  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : (wide)INFINITY) : (E_F / A_F));
 }
 
 wide wzmm
@@ -40,7 +41,7 @@ wide wzmm
  const double u12r, const double u12i, const double u22r, const double u22i,
  const double v11r, const double v11i, const double v21r, const double v21i,
  const double v12r, const double v12i, const double v22r, const double v22i,
- const double s1, const double s2, const double s)
+ const double s1, const double s2, const double s, wide k2[static 1])
 {
   wide S = W_ZERO, S1 = (wide)s1, S2 = (wide)s2,
     A11r = (wide)-a11r, A11i = (wide)-a11i,
@@ -48,6 +49,7 @@ wide wzmm
     A12r = (wide)-a12r, A12i = (wide)-a12i,
     A22r = (wide)-a22r, A22i = (wide)-a22i,
     r = W_ZERO, i = W_ZERO;
+  *k2 = S1 / S2;
   if (s != 0.0) {
     S = (wide)-s;
     S1 = scalbw(S1, S);
@@ -82,5 +84,5 @@ wide wzmm
   const wide E_F =
     hypotw(hypotw(hypotw(A11r, A11i), hypotw(A21r, A21i)), hypotw(hypotw(A12r, A12i), hypotw(A22r, A22i)));
 
-  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : W_MONE) : (E_F / A_F));
+  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : (wide)INFINITY) : (E_F / A_F));
 }
