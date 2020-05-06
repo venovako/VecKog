@@ -71,6 +71,10 @@
 #error AND already defined
 #endif /* AND */
 
+#ifdef ANDNOT
+#error ANDNOT already defined
+#endif /* ANDNOT */
+
 #ifdef OR
 #error OR already defined
 #endif /* OR */
@@ -85,11 +89,13 @@
 
 #ifdef __AVX512DQ__
 #define AND(x,y) VI(and)((x), (y))
+#define ANDNOT(x,y) VI(andnot)((x), (y))
 #define OR(x,y) VI(or)((x), (y))
 #define XOR(x,y) VI(xor)((x), (y))
 #define M2U(m) _cvtmask8_u32(m)
 #else /* AVX512F only */
 #define AND(x,y) _mm512_castsi512_pd(_mm512_and_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
+#define ANDNOT(x,y) _mm512_castsi512_pd(_mm512_andnot_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
 #define OR(x,y) _mm512_castsi512_pd(_mm512_or_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
 #define XOR(x,y) _mm512_castsi512_pd(_mm512_xor_epi64(_mm512_castpd_si512(x), _mm512_castpd_si512(y)))
 #define M2U(m) _cvtmask16_u32((__mmask16)(m))

@@ -93,11 +93,11 @@ void z8svd2_
   a22_ = VI(mask_blend)(r, a22__, a12__); VP(a22_);
 
   // d11
-  a11r_ = OR(VI(min)(VI(div)(VI(abs)(a11r), a11_), p1), AND(a11r, m0)); VP(a11r_);
+  a11r_ = OR(VI(min)(VI(div)(ANDNOT(m0, a11r), a11_), p1), AND(a11r, m0)); VP(a11r_);
   a11i_ = VI(div)(a11i, VI(max)(a11_, m)); VP(a11i_);
 
   // d22
-  a21r_ = OR(VI(min)(VI(div)(VI(abs)(a21r), a21_), p1), AND(a21r, m0)); VP(a21r_);
+  a21r_ = OR(VI(min)(VI(div)(ANDNOT(m0, a21r), a21_), p1), AND(a21r, m0)); VP(a21r_);
   a21i_ = VI(div)(a21i, VI(max)(a21_, m)); VP(a21i_);
 
   // a12'''
@@ -126,7 +126,7 @@ void z8svd2_
   a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); VP(a22i);
 
   // conj(\tilde{d}22)
-  a12r_ = OR(VI(min)(VI(div)(VI(abs)(a12r), a12_), p1), AND(a12r, m0)); VP(a12r_);
+  a12r_ = OR(VI(min)(VI(div)(ANDNOT(m0, a12r), a12_), p1), AND(a12r, m0)); VP(a12r_);
   a12i_ = VI(div)(a12i, VI(max)(a12_, m)); VP(a12i_);
 
   // r12
@@ -138,7 +138,7 @@ void z8svd2_
   a22_ = VI(hypot)(a22r_, a22i_); VP(a22_);
 
   // \hat{d}22
-  a22r_ = OR(VI(min)(VI(div)(VI(abs)(a22r_), a22_), p1), AND(a22r_, m0)); VP(a22r_);
+  a22r_ = OR(VI(min)(VI(div)(ANDNOT(m0, a22r_), a22_), p1), AND(a22r_, m0)); VP(a22r_);
   a22i_ = VI(div)(a22i_, VI(max)(a22_, m)); VP(a22i_);
 
   // r22

@@ -33,10 +33,10 @@ void d8svd2_
   a22r = VI(scalef)(a22r, s); VP(a22r);
 
   // compute the absolute values
-  register VD a11_ = VI(abs)(a11r); VP(a11_);
-  register VD a21_ = VI(abs)(a21r); VP(a21_);
-  register VD a12_ = VI(abs)(a12r); VP(a12_);
-  register VD a22_ = VI(abs)(a22r); VP(a22_);
+  register VD a11_ = ANDNOT(m0, a11r); VP(a11_);
+  register VD a21_ = ANDNOT(m0, a21r); VP(a21_);
+  register VD a12_ = ANDNOT(m0, a12r); VP(a12_);
+  register VD a22_ = ANDNOT(m0, a22r); VP(a22_);
 
   // compute the column norms
   register VD a1_ = VI(hypot)(a11_, a21_); VP(a1_);
@@ -98,13 +98,13 @@ void d8svd2_
   a12r_ = OR(p1, AND(a12r, m0)); VP(a12r_);
 
   // r12
-  a12r = VI(abs)(a12r); VP(a12r);
+  a12r = ANDNOT(m0, a12r); VP(a12r);
 
   // r22'
   a22r_ = XOR(a22r, AND(a12r_, m0)); VP(a22r_);
 
   // r22
-  a22r = VI(abs)(a22r_); VP(a22r);
+  a22r = ANDNOT(m0, a22r_); VP(a22r);
 
   // \hat{d}22
   a22r_ = OR(p1, AND(a22r_, m0)); VP(a22r_);
