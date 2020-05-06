@@ -14,11 +14,11 @@ register VD s2 = VI(load)(S2); VP(s2);
 // cu
 register const VD cu = VI(load)(U11r); VP(cu);
 // tu
-register const VD tu = VI(mul)(cu, VI(load)(U21r)); VP(tu);
+register const VD tu = VI(div)(VI(load)(U21r), cu); VP(tu);
 // cv
 register const VD cv = VI(load)(V11r); VP(cv);
 // tv
-register const VD tv = VI(mul)(cv, VI(load)(V12r)); VP(tv);
+register const VD tv = VI(div)(VI(load)(V12r), cu); VP(tv);
 #else /* !USE_DLASV2 */
 // x, y
 register const VD x = VI(max)(VI(div)(a12r, a11r), p0); VP(x);
