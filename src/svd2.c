@@ -5,7 +5,8 @@ VI(store)(V22r, a22r);
 
 for (unsigned i = 0u; i < VL; ++i) {
   LAPACK_D(lasv2)((U22r + i), (U12r + i), (V22r + i), (S2 + i), (S1 + i), (V21r + i), (V11r + i), (U21r + i), (U11r + i));
-  V12r[i] = -V21r[i];
+  U21r[i] = -U21r[i];
+  V21r[i] = -V21r[i];
 }
 
 register VD s1 = VI(load)(S1); VP(s1);
@@ -18,7 +19,7 @@ register const VD tu = VI(div)(VI(load)(U21r), cu); VP(tu);
 // cv
 register const VD cv = VI(load)(V11r); VP(cv);
 // tv
-register const VD tv = VI(div)(VI(load)(V12r), cu); VP(tv);
+register const VD tv = VI(div)(VI(load)(V21r), cu); VP(tv);
 #else /* !USE_DLASV2 */
 // x, y
 register const VD x = VI(max)(VI(div)(a12r, a11r), p0); VP(x);

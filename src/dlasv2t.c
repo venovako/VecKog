@@ -15,16 +15,6 @@ static inline void dlasv2f
   *U22 =  *U11;
   *V12 = -*V21;
   *V22 =  *V11;
-  if (copysign(1.0, *Smax) == -1.0) {
-    *Smax = -*Smax;
-    *V11 = -*V11;
-    *V21 = -*V21;
-  }
-  if (copysign(1.0, *Smin) == -1.0) {
-    *Smin = -*Smin;
-    *V12 = -*V12;
-    *V22 = -*V22;
-  }
 }
 
 double dlasv2c
