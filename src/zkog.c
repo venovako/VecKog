@@ -125,7 +125,7 @@ void z8svd2_
   a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
   a22i = VI(mul)(ca, VI(fnmadd)(_ta, a12i_, a22i_)); VP(a22i);
 
-  // \tilde{d}22
+  // conj(\tilde{d}22)
   a12r_ = OR(VI(min)(VI(div)(VI(abs)(a12r), a12_), p1), AND(a12r, m0)); VP(a12r_);
   a12i_ = VI(div)(a12i, VI(max)(a12_, m)); VP(a12i_);
 
@@ -133,8 +133,8 @@ void z8svd2_
   a12r = a12_; VP(a12r);
 
   // r22'
-  a22r_ = VI(fmsub)(a22r, a12r_, VI(mul)(a22i, a12i_)); VP(a22r_);
-  a22i_ = VI(fmadd)(a22i, a12r_, VI(mul)(a22r, a12i_)); VP(a22i_);
+  a22r_ = VI(fmadd)(a22r, a12r_, VI(mul)(a22i, a12i_)); VP(a22r_);
+  a22i_ = VI(fmsub)(a22i, a12r_, VI(mul)(a22r, a12i_)); VP(a22i_);
   a22_ = VI(hypot)(a22r_, a22i_); VP(a22_);
 
   // \hat{d}22
@@ -148,16 +148,14 @@ void z8svd2_
 
   // cos(\psi) * tan(\psi)
   er = VI(mul)(cv, tv); VP(er);
-  // -er
-  ei = XOR(er, m0); VP(ei);
 
   // v11
   e11r = cv; VP(e11r);
   e11i = p0; VP(e11i);
 
   // v21
-  e21r = VI(mul)(ei, a12r_); VP(e21r);
-  e21i = VI(mul)(ei, a12i_); VP(e21i);
+  e21r = VI(mul)(er, XOR(a12r_, m0)); VP(e21r);
+  e21i = VI(mul)(er, a12i_); VP(e21i);
 
   // v12
   e12r = er; VP(e12r);
@@ -165,7 +163,7 @@ void z8svd2_
 
   // v22
   e22r = VI(mul)(cv, a12r_); VP(e22r);
-  e22i = VI(mul)(cv, a12i_); VP(e22i);
+  e22i = VI(mul)(cv, XOR(a12i_, m0)); VP(e22i);
 
   // P_c * V
   VI(store)(V11r, VI(mask_blend)(c, e11r, e21r));
