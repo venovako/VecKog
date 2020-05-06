@@ -116,7 +116,7 @@ extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
 #if ((TEST == 0) || (TEST == 1))
 #define VP(v) Vprintf(stderr, #v, (v))
 #else /* TEST < 0 or TEST > 1 */
-#define VP(v) 0
+#define VP(v) TEST
 #endif /* TEST ?in {0,1} */
 #else /* !TEST */
 #define VP(v) 0
@@ -132,7 +132,7 @@ extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
 #if ((TEST == 0) || (TEST == 1))
 #define MP(m) Mprintf(stderr, #m, (m))
 #else /* TEST < 0 or TEST > 1 */
-#define MP(m) 0
+#define MP(m) TEST
 #endif /* TEST ?in {0,1} */
 #else /* !TEST */
 #define MP(m) 0

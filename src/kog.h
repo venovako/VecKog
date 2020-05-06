@@ -6,7 +6,11 @@
 #ifndef BACKSCALE
 #define BACKSCALE
 #endif /* !BACKSCALE */
-#endif /* TEST == 1 */
+#elif (TEST == 2)
+#ifndef USE_DLASV2
+#define USE_DLASV2
+#endif /* !USE_DLASV2 */
+#endif /* ?TEST */
 #endif /* TEST */
 
 #include "vec.h"

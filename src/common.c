@@ -28,58 +28,48 @@ size_t atoz(const char *const s)
 
 char *dtos(char s[static 26], const double x)
 {
-  if (isfinite(x)) {
-    int l = sprintf((char*)memset(s, 0, (size_t)26u), "%# -25.17E", x);
-    if (l <= 0)
-      return (char*)NULL;
-    char *d = s + 25;
-    for (--d; isblank(*d); --d)
-      *d = '\0';
-    char *e = strrchr(s, 'E');
-    if (!e)
-      return s;
-    e += 2;
-    l = (int)(strchr(e, '\0') - e);
-    if (l >= 3)
-      return s;
-    d = s + 25;
-    e += l;
-    for (int i = 0; i < l; ++i)
-      *--d = *--e;
-    for (--d; isdigit(*d); --d)
-      *d = '0';
+  int l = sprintf((char*)memset(s, 0, (size_t)26u), "%# 25.17E", x);
+  if (l <= 0)
+    return (char*)NULL;
+  char *d = s + 25;
+  for (--d; isblank(*d); --d)
+    *d = '\0';
+  char *e = strrchr(s, 'E');
+  if (!e)
     return s;
-  }
-  else if (isinf(x))
-    return ((sprintf((char*)memset(s, 0, (size_t)26u), "%c1.00000000000000000E+INF", ((x < 0.0) ? '-' : ' ')) <= 0) ? (char*)NULL : s);
-  return ((sprintf((char*)memset(s, 0, (size_t)26u), " 1.00000000000000000E+NaN") <= 0) ? (char*)NULL : s);
+  e += 2;
+  l = (int)(strchr(e, '\0') - e);
+  if (l >= 3)
+    return s;
+  d = s + 25;
+  e += l;
+  for (int i = 0; i < l; ++i)
+    *--d = *--e;
+  for (--d; isdigit(*d); --d)
+    *d = '0';
+  return s;
 }
 
 char *xtos(char s[static 31], const long double x)
 {
-  if (isfinite(x)) {
-    int l = sprintf((char*)memset(s, 0, 31u), "%# -30.21LE", x);
-    if (l <= 0)
-      return (char*)NULL;
-    char *d = s + 30;
-    for (--d; isblank(*d); --d)
-      *d = '\0';
-    char *e = strrchr(s, 'E');
-    if (!e)
-      return s;
-    e += 2;
-    l = (int)(strchr(e, '\0') - e);
-    if (l >= 4)
-      return s;
-    d = s + 30;
-    e += l;
-    for (int i = 0; i < l; ++i)
-      *--d = *--e;
-    for (--d; isdigit(*d); --d)
-      *d = '0';
+  int l = sprintf((char*)memset(s, 0, 31u), "%# 30.21LE", x);
+  if (l <= 0)
+    return (char*)NULL;
+  char *d = s + 30;
+  for (--d; isblank(*d); --d)
+    *d = '\0';
+  char *e = strrchr(s, 'E');
+  if (!e)
     return s;
-  }
-  else if (isinf(x))
-    return ((sprintf((char*)memset(s, 0, (size_t)26u), "%c1.000000000000000000000E+INFL", ((x < 0.0) ? '-' : ' ')) <= 0) ? (char*)NULL : s);
-  return ((sprintf((char*)memset(s, 0, (size_t)26u), " 1.000000000000000000000E+NaNL") <= 0) ? (char*)NULL : s);
+  e += 2;
+  l = (int)(strchr(e, '\0') - e);
+  if (l >= 4)
+    return s;
+  d = s + 30;
+  e += l;
+  for (int i = 0; i < l; ++i)
+    *--d = *--e;
+  for (--d; isdigit(*d); --d)
+    *d = '0';
+  return s;
 }
