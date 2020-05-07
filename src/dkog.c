@@ -69,16 +69,16 @@ void d8svd2_
   a22_ = VI(mask_blend)(r, a22__, a12__); VP(a22_);
 
   // d11
-  a11r_ = OR(p1, AND(a11r, m0)); VP(a11r_);
+  a11r_ = AND(a11r, m0); VP(a11r_);
 
   // d22
-  a21r_ = OR(p1, AND(a21r, m0)); VP(a21r_);
+  a21r_ = AND(a21r, m0); VP(a21r_);
 
   // a12'''
-  a12r_ = XOR(AND(a11r_, m0), a12r); VP(a12r_);
+  a12r_ = XOR(a11r_, a12r); VP(a12r_);
 
   // a22'''
-  a22r_ = XOR(AND(a21r_, m0), a22r); VP(a22r_);
+  a22r_ = XOR(a21r_, a22r); VP(a22r_);
 
   // -\tan(\alpha)
   register const VD _ta = VI(max)(VI(div)(a21_, a11_), p0); VP(_ta);
@@ -95,19 +95,19 @@ void d8svd2_
   a22r = VI(mul)(ca, VI(fnmadd)(_ta, a12r_, a22r_)); VP(a22r);
 
   // \tilde{d}22
-  a12r_ = OR(p1, AND(a12r, m0)); VP(a12r_);
+  a12r_ = AND(a12r, m0); VP(a12r_);
 
   // r12
   a12r = ANDNOT(m0, a12r); VP(a12r);
 
   // r22'
-  a22r_ = XOR(a22r, AND(a12r_, m0)); VP(a22r_);
+  a22r_ = XOR(a22r, a12r_); VP(a22r_);
 
   // r22
   a22r = ANDNOT(m0, a22r_); VP(a22r);
 
   // \hat{d}22
-  a22r_ = OR(p1, AND(a22r_, m0)); VP(a22r_);
+  a22r_ = AND(a22r_, m0); VP(a22r_);
 
 #include "svd2.c"
 
@@ -118,10 +118,10 @@ void d8svd2_
   e12r = VI(mul)(cv, tv); VP(e12r);
 
   // v21
-  e21r = XOR(VI(mul)(e12r, a12r_), m0); VP(e21r);
+  e21r = XOR(XOR(e12r, a12r_), m0); VP(e21r);
 
   // v22
-  e22r = VI(mul)(cv, a12r_); VP(e22r);
+  e22r = XOR(cv, a12r_); VP(e22r);
 
   // P_c * V
   VI(store)(V11r, VI(mask_blend)(c, e11r, e21r));
@@ -133,13 +133,16 @@ void d8svd2_
   s = VI(mul)(ca, cu); VP(s);
 
   // \hat{d}22 * -tan(\alpha)
-  er = VI(mul)(a22r_, _ta); VP(er);
+  er = XOR(a22r_, _ta); VP(er);
 
   // s * d11
-  a11r = VI(mul)(s, a11r_); VP(a11r);
+  a11r = XOR(s, a11r_); VP(a11r);
 
   // s * d22
-  a21r = VI(mul)(s, a21r_); VP(a21r);
+  a21r = XOR(s, a21r_); VP(a21r);
+
+  // true \hat{d}22
+  a22r_ = OR(p1, a22r_); VP(a22r_);
 
   // u11
   e11r = VI(mul)(a11r, VI(fmadd)(er, tu, p1)); VP(e11r);

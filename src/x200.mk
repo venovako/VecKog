@@ -14,7 +14,7 @@ ifdef TEST
 CPUFLAGS += -DTEST=$(TEST)
 endif # TEST
 C18FLAGS=$(CPUFLAGS)
-FPUFLAGS=-fma -fp-model source -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high -fimf-use-svml=true
+FPUFLAGS=-fp-model source -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high -fimf-use-svml=true
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG) -xHost
 DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3 -diag-disable=1572,2547,10397
