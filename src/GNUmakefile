@@ -20,8 +20,8 @@ d8svd2t$(TEST)$(DEBUG).exe: d8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 z8svd2t$(TEST)$(DEBUG).exe: z8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o dlasv2t$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
-	$(AR) $(ARFLAGS) $@ kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o dlasv2t$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o
+libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
+	$(AR) $(ARFLAGS) $@ kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o
 
 kog$(TEST)$(DEBUG).o: kog.c kog.h dkog.c dkog.h zkog.c zkog.h kogp.c svd2.c vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -41,15 +41,11 @@ wmm$(TEST)$(DEBUG).o: wmm.c wmm.h wcmplx.h common.h $(MKFS)
 wor$(TEST)$(DEBUG).o: wor.c wor.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-dlasv2t$(TEST)$(DEBUG).o: dlasv2t.c dlasv2t.h common.h $(MKFS)
-	$(CC) $(CFLAGS) -c $< -o $@
-
 common$(TEST)$(DEBUG).o: common.c common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	-$(RM) common$(TEST)$(DEBUG).o
-	-$(RM) dlasv2t$(TEST)$(DEBUG).o
 	-$(RM) wor$(TEST)$(DEBUG).o
 	-$(RM) wmm$(TEST)$(DEBUG).o
 	-$(RM) wre$(TEST)$(DEBUG).o
