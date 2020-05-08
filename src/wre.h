@@ -21,5 +21,6 @@ extern void wzre
  const double S1[static 1], const double S2[static 1], const double *const S);
 
 extern int Pwre(FILE f[static 1], const size_t n, const wide K2[static 1], const wide RE[static 1], const wide OU[static 1], const wide OV[static 1]);
+extern int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const wide re, const wide ou, const wide ov);
 
 #endif /* !WRE_H */

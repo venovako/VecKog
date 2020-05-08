@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-  if (5 != argc) {
-    (void)fprintf(stderr, "%s n #batches in out\n", argv[0]);
+  if (4 != argc) {
+    (void)fprintf(stderr, "%s n #batches infile\n", argv[0]);
     return EXIT_FAILURE;
   }
   const size_t n = atoz(argv[1]);
@@ -18,14 +18,9 @@ int main(int argc, char *argv[])
     perror("atoz(b)");
     return EXIT_FAILURE;
   }
-  FILE *const fi = fopen(argv[3], "rb");
-  if (!fi) {
-    perror("fopen(fi)");
-    return EXIT_FAILURE;
-  }
-  FILE *const fo = fopen(argv[4], "wb");
-  if (!fo) {
-    perror("fopen(fo)");
+  FILE *const f = fopen(argv[3], "rb");
+  if (!f) {
+    perror("fopen");
     return EXIT_FAILURE;
   }
   Dmem *const d = Dalloc(n);
@@ -35,28 +30,27 @@ int main(int argc, char *argv[])
   if (!t)
     return EXIT_FAILURE;
 
+  (void)fprintf(stdout, "\"DBATCH\",\"WTIMEs\",\"K2\",\"RE\",\"OU\",\"OV\"\n");
+  (void)fflush(stdout);
   const size_t V = n2V(n);
-  for (size_t j = (size_t)0u; j < b; ++j) {
-    (void)fprintf(stdout, "dbatch %10zu ", j);
-    (void)fflush(stdout);
-    if (n != fread(d->r.A11, sizeof(double), n, fi)) {
+
+  for (size_t j = (size_t)1u; j <= b; ++j) {
+    if (n != fread(d->r.A11, sizeof(double), n, f)) {
       perror("fread(A11r)");
       return EXIT_FAILURE;
     }
-    if (n != fread(d->r.A21, sizeof(double), n, fi)) {
+    if (n != fread(d->r.A21, sizeof(double), n, f)) {
       perror("fread(A21r)");
       return EXIT_FAILURE;
     }
-    if (n != fread(d->r.A12, sizeof(double), n, fi)) {
+    if (n != fread(d->r.A12, sizeof(double), n, f)) {
       perror("fread(A12r)");
       return EXIT_FAILURE;
     }
-    if (n != fread(d->r.A22, sizeof(double), n, fi)) {
+    if (n != fread(d->r.A22, sizeof(double), n, f)) {
       perror("fread(A22r)");
       return EXIT_FAILURE;
     }
-    (void)fprintf(stdout, "...");
-    (void)fflush(stdout);
     double w = omp_get_wtime();
 #pragma omp parallel for default(none) shared(V,d)
     for (size_t i = (size_t)0u; i < V; ++i) {
@@ -68,50 +62,26 @@ int main(int argc, char *argv[])
          (d->v.S1 + k), (d->v.S2 + k), (d->v.s + k));
     }
     w = omp_get_wtime() - w;
-    (void)fprintf(stdout, "%# 13.6f ", w);
-    (void)fflush(stdout);
     wdre
       (n, t->K2, t->RE, t->OU, t->OV,
        d->r.A11, d->r.A21, d->r.A12, d->r.A22,
        d->r.U11, d->r.U21, d->r.U12, d->r.U22,
        d->r.V11, d->r.V21, d->r.V12, d->r.V22,
        d->v.S1, d->v.S2, d->v.s);
-    (void)fprintf(stdout, "s");
-    (void)fflush(stdout);
-    if (n != fwrite(t->K2, sizeof(wide), n, fo)) {
-      perror("fwrite(K2)");
-      return EXIT_FAILURE;
+    // TODO: FIXME for n not a power of two
+    for (size_t k = n >> 1u; k; k >>= 1u) {
+#pragma omp parallel for default(none) shared(k,t)
+      for (size_t i = (size_t)0u; i < k; ++i) {
+        (t->K2)[i] = fmaxw((t->K2)[i], (t->K2)[i + k]);
+        (t->RE)[i] = fmaxw((t->RE)[i], (t->RE)[i + k]);
+        (t->OU)[i] = fmaxw((t->OU)[i], (t->OU)[i + k]);
+        (t->OV)[i] = fmaxw((t->OV)[i], (t->OV)[i + k]);
+      }
     }
-    if (n != fwrite(t->RE, sizeof(wide), n, fo)) {
-      perror("fwrite(RE)");
-      return EXIT_FAILURE;
-    }
-    if (n != fwrite(t->OU, sizeof(wide), n, fo)) {
-      perror("fwrite(OU)");
-      return EXIT_FAILURE;
-    }
-    if (n != fwrite(t->OV, sizeof(wide), n, fo)) {
-      perror("fwrite(OV)");
-      return EXIT_FAILURE;
-    }
-    if (fflush(fo)) {
-      perror("fflush(fo)");
-      return EXIT_FAILURE;
-    }
-    (void)fprintf(stdout, "\n");
-    (void)fflush(stdout);
+    Bwre(stdout, j, w, *(t->K2), *(t->RE), *(t->OU), *(t->OV));
   }
 
   (void)Tfree(t);
   (void)Dfree(d);
-  if (fclose(fo)) {
-    perror("fclose(fo)");
-    return EXIT_FAILURE;
-  }
-  if (fclose(fi)) {
-    perror("fclose(fi)");
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  return (fclose(f) ? EXIT_FAILURE : EXIT_SUCCESS);
 }

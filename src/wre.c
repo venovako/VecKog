@@ -82,3 +82,15 @@ int Pwre(FILE f[static 1], const size_t n, const wide K2[static 1], const wide R
 
   return (fflush(f) ? -2 : ret);
 }
+
+int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const wide re, const wide ou, const wide ov)
+{
+  char s[31];
+  int ret = fprintf(f, "%8zu,", i);
+  ret += fprintf(f, "%# 13.6f,", t);
+  ret += fprintf(f, "%s,", xtos(s, (long double)k2));
+  ret += fprintf(f, "%s,", xtos(s, (long double)re));
+  ret += fprintf(f, "%s,", xtos(s, (long double)ou));
+  ret += fprintf(f, "%s\n", xtos(s, (long double)ov));
+  return (fflush(f) ? -1 : ret);
+}
