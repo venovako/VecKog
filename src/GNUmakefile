@@ -6,7 +6,7 @@ MKFS=GNUmakefile $(CPU).mk
 
 .PHONY: all help clean
 
-all: libveckog$(TEST)$(DEBUG).a rndgen$(TEST)$(DEBUG).exe d8svd2t$(TEST)$(DEBUG).exe z8svd2t$(TEST)$(DEBUG).exe
+all: libveckog$(TEST)$(DEBUG).a rndgen$(TEST)$(DEBUG).exe zbatch$(TEST)$(DEBUG).exe d8svd2t$(TEST)$(DEBUG).exe z8svd2t$(TEST)$(DEBUG).exe
 
 help:
 	@echo "gmake [CPU=x200|x64] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2] [all|clean|help]"
@@ -18,6 +18,9 @@ d8svd2t$(TEST)$(DEBUG).exe: d8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 z8svd2t$(TEST)$(DEBUG).exe: z8svd2t.c libveckog$(TEST)$(DEBUG).a $(MKFS)
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+zbatch$(TEST)$(DEBUG).exe: zbatch.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
@@ -54,5 +57,6 @@ clean:
 	-$(RM) kog$(TEST)$(DEBUG).o
 	-$(RM) libveckog$(TEST)$(DEBUG).a
 	-$(RM) rndgen$(TEST)$(DEBUG).exe
+	-$(RM) zbatch$(TEST)$(DEBUG).exe
 	-$(RM) d8svd2t$(TEST)$(DEBUG).exe
 	-$(RM) z8svd2t$(TEST)$(DEBUG).exe
