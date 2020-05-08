@@ -26,7 +26,6 @@ typedef struct {
 
 typedef struct {
   wide *K2, *RE, *OU, *OV;
-  double *w;
 } Tout;
 
 extern double *Valloc(const size_t n);

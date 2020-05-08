@@ -166,18 +166,16 @@ Tout *Talloc(const size_t n)
       perror("malloc(OV)");
       exit(EXIT_FAILURE);
     }
-    if (!(t->w = (double*)malloc(N * sizeof(double)))) {
-      perror("malloc(w)");
-      exit(EXIT_FAILURE);
-    }
+
+    const size_t w = (VL * sizeof(wide));
     // each thread zeroes-out its portion of t->*
-#pragma omp parallel for default(none) shared(V,t)
+#pragma omp parallel for default(none) shared(V,t,w)
     for (size_t i = (size_t)0u; i < V; ++i) {
-      (void)memset((t->K2 + i), 0, (VL * sizeof(wide)));
-      (void)memset((t->RE + i), 0, (VL * sizeof(wide)));
-      (void)memset((t->OU + i), 0, (VL * sizeof(wide)));
-      (void)memset((t->OV + i), 0, (VL * sizeof(wide)));
-      (void)memset((t->w + i), 0, (VL * sizeof(double)));
+      const size_t j = (i << VLlg);
+      (void)memset((t->K2 + j), 0, w);
+      (void)memset((t->RE + j), 0, w);
+      (void)memset((t->OU + j), 0, w);
+      (void)memset((t->OV + j), 0, w);
     }
   }
   else {
@@ -191,7 +189,6 @@ Tout *Talloc(const size_t n)
 Tout *Tfree(Tout *const t)
 {
   if (t) {
-    free(t->w);
     free(t->OV);
     free(t->OU);
     free(t->RE);
