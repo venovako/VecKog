@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
   const size_t V = n2V(n);
   for (size_t j = (size_t)0u; j < b; ++j) {
-    (void)fprintf(stdout, "batch %10zu ", j);
+    (void)fprintf(stdout, "zbatch %10zu ", j);
     (void)fflush(stdout);
     if (n != fread(z->r.A11, sizeof(double), n, fi)) {
       perror("fread(A11r)");
