@@ -7,7 +7,7 @@ double *Valloc(const size_t n)
   const size_t V = n2V(n);
   double *const d = (double*)(V ? aligned_alloc(VA, V * VA) : NULL);
   if (d) {
-    /* each thread zeroes-out its portion of *d */
+    // each thread zeroes-out its portion of *d
 #pragma omp parallel for default(none) shared(V,d)
     for (size_t i = (size_t)0u; i < V; ++i) {
       register const VD z = VI(setzero)();
@@ -142,4 +142,61 @@ Zmem *Zfree(Zmem *const z)
     free(z);
   }
   return (Zmem*)NULL;
+}
+
+Tout *Talloc(const size_t n)
+{
+  Tout *const t = (Tout*)(n ? calloc((size_t)1u, sizeof(Tout)) : NULL);
+  if (t) {
+    const size_t V = n2V(n);
+    const size_t N = n2N(n);
+    if (!(t->K2 = (wide*)malloc(N * sizeof(wide)))) {
+      perror("malloc(K2)");
+      exit(EXIT_FAILURE);
+    }
+    if (!(t->RE = (wide*)malloc(N * sizeof(wide)))) {
+      perror("malloc(RE)");
+      exit(EXIT_FAILURE);
+    }
+    if (!(t->OU = (wide*)malloc(N * sizeof(wide)))) {
+      perror("malloc(OU)");
+      exit(EXIT_FAILURE);
+    }
+    if (!(t->OV = (wide*)malloc(N * sizeof(wide)))) {
+      perror("malloc(OV)");
+      exit(EXIT_FAILURE);
+    }
+    if (!(t->w = (double*)malloc(N * sizeof(double)))) {
+      perror("malloc(w)");
+      exit(EXIT_FAILURE);
+    }
+    // each thread zeroes-out its portion of t->*
+#pragma omp parallel for default(none) shared(V,t)
+    for (size_t i = (size_t)0u; i < V; ++i) {
+      (void)memset((t->K2 + i), 0, (VL * sizeof(wide)));
+      (void)memset((t->RE + i), 0, (VL * sizeof(wide)));
+      (void)memset((t->OU + i), 0, (VL * sizeof(wide)));
+      (void)memset((t->OV + i), 0, (VL * sizeof(wide)));
+      (void)memset((t->w + i), 0, (VL * sizeof(double)));
+    }
+  }
+  else {
+    perror("calloc");
+    if (n)
+      exit(EXIT_FAILURE);
+  }
+  return t;
+}
+
+Tout *Tfree(Tout *const t)
+{
+  if (t) {
+    free(t->w);
+    free(t->OV);
+    free(t->OU);
+    free(t->RE);
+    free(t->K2);
+    free(t);
+  }
+  return (Tout*)NULL;
 }
