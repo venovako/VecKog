@@ -114,36 +114,7 @@ static inline size_t n2N(const size_t n)
 }
 
 extern int Vprintf(FILE f[static 1], const char *const h, const VD v);
-
-#ifdef VP
-#error VP already defined
-#else /* !VP */
-#ifdef TEST
-#if ((TEST == 0) || (TEST == 1))
-#define VP(v) Vprintf(stderr, #v, (v))
-#else /* TEST < 0 or TEST > 1 */
-#define VP(v) TEST
-#endif /* TEST ?in {0,1} */
-#else /* !TEST */
-#define VP(v) 0
-#endif /* ?TEST */
-#endif /* ?VP */
-
 extern int Mprintf(FILE f[static 1], const char *const h, const MD m);
-
-#ifdef MP
-#error MP already defined
-#else /* !MP */
-#ifdef TEST
-#if ((TEST == 0) || (TEST == 1))
-#define MP(m) Mprintf(stderr, #m, (m))
-#else /* TEST < 0 or TEST > 1 */
-#define MP(m) TEST
-#endif /* TEST ?in {0,1} */
-#else /* !TEST */
-#define MP(m) 0
-#endif /* ?TEST */
-#endif /* ?MP */
 
 extern size_t Vread(double d[static VL], const size_t V, FILE f[static 1]);
 extern size_t Vwrite(const double d[static VL], const size_t V, FILE f[static 1]);

@@ -32,11 +32,7 @@ void z8svd2_
   // compute s
   register VD er = VI(min)(VI(min)(e11r, e21r), VI(min)(e12r, e22r)); VP(er);
   register VD ei = VI(min)(VI(min)(e11i, e21i), VI(min)(e12i, e22i)); VP(ei);
-#ifdef NOSCALE
-  register VD s = VI(setzero)();
-#else /* !NOSCALE */
   register VD s = VI(min)(VI(set1)(DBL_MAX), VI(min)(er, ei)); VP(s);
-#endif /* ?NOSCALE */
 
   // scale A
   a11r = VI(scalef)(a11r, s); VP(a11r);
