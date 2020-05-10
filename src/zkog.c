@@ -7,6 +7,17 @@ void z8svd2_
  double V12r[static VL], double V12i[static VL], double V22r[static VL], double V22i[static VL],
  double S1[static VL], double S2[static VL], double S[static VL])
 {
+#ifdef POINTWISE
+  for (unsigned i = 0u; i < VL; ++i)
+    z1svd2_
+      ((A11r + i), (A11i + i), (A21r + i), (A21i + i),
+       (A12r + i), (A12i + i), (A22r + i), (A22i + i),
+       (U11r + i), (U11i + i), (U21r + i), (U21i + i),
+       (U12r + i), (U12i + i), (U22r + i), (U22i + i),
+       (V11r + i), (V11i + i), (V21r + i), (V21i + i),
+       (V12r + i), (V12i + i), (V22r + i), (V22i + i),
+       (S1 + i), (S2 + i), (S + i));
+#else /* !POINTWISE */
 #include "kogp.c"
 
   // load A from RAM
@@ -227,3 +238,4 @@ void z8svd2_
   VI(store)(U22r, VI(mask_blend)(r, e22r, e12r));
   VI(store)(U22i, VI(mask_blend)(r, e22i, e12i));
 }
+#endif /* ?POINTWISE */

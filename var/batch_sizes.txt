@@ -1,0 +1,10 @@
+Z: n * 12 * 2 + n * 3 + n * 4 * 2 = 24n + 3n + 8n = 35n * 8 = 280n
+
+n = 268435456 (2^28)
+
+D: n * 12 + n * 3 + n * 8 = 23n * 8 = 184n
+
+as above
+
+Z: 128 batches of n matrices
+D: 256 batches of n matrices

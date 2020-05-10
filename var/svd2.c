@@ -1,3 +1,23 @@
+#ifdef LAPACK_DLASV2
+VI(store)(U22r, a11r);
+VI(store)(U12r, a12r);
+VI(store)(V22r, a22r);
+
+for (unsigned i = 0u; i < VL; ++i)
+  LAPACK_DLASV2((U22r + i), (U12r + i), (V22r + i), (S2 + i), (S1 + i), (V21r + i), (V11r + i), (U21r + i), (U11r + i));
+
+register VD s1 = VI(load)(S1); VP(s1);
+register VD s2 = VI(load)(S2); VP(s2);
+
+// cu
+register const VD cu = VI(load)(U11r); VP(cu);
+// cv
+register const VD cv = VI(load)(V11r); VP(cv);
+// tu = su / cu = -U21r / cu
+register const VD tu = VI(div)(XOR(VI(load)(U21r), m0), cu); VP(tu);
+// tv = sv / cv = -V21r / cv
+register const VD tv = VI(div)(XOR(VI(load)(V21r), m0), cv); VP(tv);
+#else /* !LAPACK_DLASV2 */
 // x, y
 register const VD x = VI(max)(VI(div)(a12r, a11r), p0); VP(x);
 register const VD y = VI(max)(VI(div)(a22r, a11r), p0); VP(y);
@@ -21,6 +41,7 @@ register const VD cucv = VI(mul)(cu, cv); VP(cucv);
 // sigma_max', sigma_min'
 register VD s1 = VI(mul)(VI(mul)(cucv, ssv), a11r);
 register VD s2 = VI(mul)(VI(mul)(cucv, ssu), a22r);
+#endif /* ?LAPACK_DLASV2 */
 
 #ifdef BACKSCALE
 // optional backscaling by -s
@@ -32,8 +53,10 @@ s2 = VI(scalef)(s2, s); VP(s2);
 s = m0; VP(s);
 #endif /* BACKSCALE */
 
+#if (defined(BACKSCALE) || !defined(LAPACK_DLASV2))
 // store the singular values
 VI(store)(S1, s1);
 VI(store)(S2, s2);
+#endif /* BACKSCALE || !USE_DLASV2 */
 // store the scaling parameters
 VI(store)(S, s);
