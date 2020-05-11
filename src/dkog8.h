@@ -1,3 +1,6 @@
+#ifndef DKOG8_H
+#define DKOG8_H
+
 // real xSsvd2 from the paper
 // all arguments must be aligned to VA (64) bytes
 
@@ -10,3 +13,5 @@ extern void d8svd2_
  double U11r[static VL], double U21r[static VL], double U12r[static VL], double U22r[static VL],
  double V11r[static VL], double V21r[static VL], double V12r[static VL], double V22r[static VL],
  double S1[static VL], double S2[static VL], double S[static VL]);
+
+#endif /* !DKOG8_H */

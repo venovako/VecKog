@@ -50,5 +50,6 @@
 *.optrpt
 
 # Data
+.svn/
 out/
 *.dbl

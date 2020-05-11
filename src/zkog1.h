@@ -1,3 +1,6 @@
+#ifndef ZKOG1_H
+#define ZKOG1_H
+
 // complex x1svd2 from the paper
 
 // callable from Fortran directly (no interfaces needed):
@@ -12,3 +15,5 @@ extern void z1svd2_
  double V11r[static 1], double V11i[static 1], double V21r[static 1], double V21i[static 1],
  double V12r[static 1], double V12i[static 1], double V22r[static 1], double V22i[static 1],
  double S1[static 1], double S2[static 1], double S[static 1]);
+
+#endif /* !ZKOG1_H */

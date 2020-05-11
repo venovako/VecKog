@@ -1,3 +1,6 @@
+#ifndef DKOG1_H
+#define DKOG1_H
+
 // real x1svd2 from the paper
 
 // callable from Fortran directly (no interfaces needed):
@@ -9,3 +12,5 @@ extern void d1svd2_
  double U11r[static 1], double U21r[static 1], double U12r[static 1], double U22r[static 1],
  double V11r[static 1], double V21r[static 1], double V12r[static 1], double V22r[static 1],
  double S1[static 1], double S2[static 1], double S[static 1]);
+
+#endif /* !DKOG1_H */

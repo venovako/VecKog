@@ -39,6 +39,7 @@
 #endif /* ?MP */
 
 #include "dkog1.c"
-#include "dkog.c"
 #include "zkog1.c"
-#include "zkog.c"
+
+#include "dkog8.c"
+#include "zkog8.c"

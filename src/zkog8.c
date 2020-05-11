@@ -237,5 +237,5 @@ void z8svd2_
   VI(store)(U12i, VI(mask_blend)(r, e12i, e22i));
   VI(store)(U22r, VI(mask_blend)(r, e22r, e12r));
   VI(store)(U22i, VI(mask_blend)(r, e22i, e12i));
-}
 #endif /* ?POINTWISE */
+}

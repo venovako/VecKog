@@ -1,3 +1,6 @@
+#ifndef ZKOG8_H
+#define ZKOG8_H
+
 // complex xSsvd2 from the paper
 // all arguments must be aligned to VA (64) bytes
 
@@ -13,3 +16,5 @@ extern void z8svd2_
  double V11r[static VL], double V11i[static VL], double V21r[static VL], double V21i[static VL],
  double V12r[static VL], double V12i[static VL], double V22r[static VL], double V22i[static VL],
  double S1[static VL], double S2[static VL], double S[static VL]);
+
+#endif /* !ZKOG8_H */

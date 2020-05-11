@@ -6,5 +6,5 @@ D: n * 12 + n * 3 + n * 8 = 23n * 8 = 184n
 
 as above
 
-Z: 128 batches of n matrices
-D: 256 batches of n matrices
+Z: 32 batches of n matrices
+D: 64 batches of n matrices
