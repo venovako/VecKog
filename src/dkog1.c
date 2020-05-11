@@ -41,8 +41,8 @@ void d1svd2_
   // compute the column norms
     a1_ = hypot(a11_, a21_),
     a2_ = hypot(a12_, a22_),
-  // column-permuted variables
-    a11r_, a11__, a12r_, a12__, a21r_, a21__, a22r_, a22__;
+  // aux variables
+    a11r_, a11__, a21r_, a21__, a12r_, a12__, a22r_, a22__;
 
   // <-compare a1_ and a2_
   const bool c = (a1_ < a2_);
