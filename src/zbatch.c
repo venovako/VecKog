@@ -13,6 +13,11 @@ int main(int argc, char *argv[])
     perror("atoz(n)");
     return EXIT_FAILURE;
   }
+  // TODO: FIXME for n not a power of two
+  if (_mm_popcnt_u64(n) > (__int64)1) {
+    perror("n not a power of two");
+    return EXIT_FAILURE;
+  }
   const size_t b = atoz(argv[2]);
   if (!b) {
     perror("atoz(b)");
