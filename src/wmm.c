@@ -10,7 +10,7 @@ wide wdmm
 {
   wide S = W_ZERO, S1 = (wide)s1, S2 = (wide)s2,
     A11 = (wide)-a11, A21 = (wide)-a21, A12 = (wide)-a12, A22 = (wide)-a22;
-  *k2 = S1 / S2;
+  *k2 = fminw((S1 / S2), (wide)INFINITY);
   if (s != 0.0) {
     S = (wide)-s;
     S1 = scalbw(S1, S);
@@ -31,7 +31,7 @@ wide wdmm
   const wide
     E_F = hypotw(hypotw(A11, A21), hypotw(A12, A22));
 
-  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : (wide)INFINITY) : (E_F / A_F));
+  return fmaxw((E_F / A_F), W_ZERO);
 }
 
 wide wzmm
@@ -49,7 +49,7 @@ wide wzmm
     A12r = (wide)-a12r, A12i = (wide)-a12i,
     A22r = (wide)-a22r, A22i = (wide)-a22i,
     r = W_ZERO, i = W_ZERO;
-  *k2 = S1 / S2;
+  *k2 = fminw((S1 / S2), (wide)INFINITY);
   if (s != 0.0) {
     S = (wide)-s;
     S1 = scalbw(S1, S);
@@ -84,5 +84,5 @@ wide wzmm
   const wide E_F =
     hypotw(hypotw(hypotw(A11r, A11i), hypotw(A21r, A21i)), hypotw(hypotw(A12r, A12i), hypotw(A22r, A22i)));
 
-  return ((A_F == W_ZERO) ? ((E_F == W_ZERO) ? W_ZERO : (wide)INFINITY) : (E_F / A_F));
+  return fmaxw((E_F / A_F), W_ZERO);
 }

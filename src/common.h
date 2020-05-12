@@ -5,6 +5,7 @@
 #include <mathimf.h>
 extern __float128 __fmaq(__float128, __float128, __float128);
 extern __float128 __fmaxq(__float128, __float128);
+extern __float128 __fminq(__float128, __float128);
 extern __float128 __hypotq(__float128, __float128);
 extern __float128 __scalbq(__float128, __float128);
 #else /* !__ICC */
@@ -27,6 +28,11 @@ typedef long double wide;
 #else /* fmaxw */
 #error fmaxw already defined
 #endif /* ?fmaxw */
+#ifndef fminw
+#define fminw fminl
+#else /* fminw */
+#error fminw already defined
+#endif /* ?fminw */
 #ifndef hypotw
 #define hypotw hypotl
 #else /* hypotw */
@@ -59,6 +65,11 @@ typedef __float128 wide;
 #else /* fmaxw */
 #error fmaxw already defined
 #endif /* ?fmaxw */
+#ifndef fminw
+#define fminw __fminq
+#else /* fminw */
+#error fminw already defined
+#endif /* ?fminw */
 #ifndef hypotw
 #define hypotw __hypotq
 #else /* hypotw */
