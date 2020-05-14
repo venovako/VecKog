@@ -215,7 +215,7 @@ typedef uint32_t fnat;
 
 extern size_t atoz(const char *const s);
 
-extern char *dtos(char s[static 26], const double x);
-extern char *xtos(char s[static 31], const long double x);
+extern char *dtoa(char s[static 26], const double x);
+extern char *xtoa(char s[static 31], const long double x);
 
 #endif /* !COMMON_H */

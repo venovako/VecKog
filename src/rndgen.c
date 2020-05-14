@@ -1,6 +1,5 @@
-/* Generates a sequence of N random double precision values.
-   For each value x holds isfinite(x) == true but x is otherwise arbitrary.
-*/
+// Generates a sequence of N random double precision values.
+// For each value x holds isfinite(x) == true but x is otherwise arbitrary.
 #include "common.h"
 
 int main(int argc, char *argv[])

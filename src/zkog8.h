@@ -1,7 +1,7 @@
 #ifndef ZKOG8_H
 #define ZKOG8_H
 
-// complex xSsvd2 from the paper
+// zSsvd2 from the paper
 // all arguments must be aligned to VA (64) bytes
 
 // callable from Fortran directly (no interfaces needed):

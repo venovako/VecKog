@@ -1,7 +1,7 @@
 #ifndef ZKOG1_H
 #define ZKOG1_H
 
-// complex x1svd2 from the paper
+// z1svd2 from the paper
 
 // callable from Fortran directly (no interfaces needed):
 // EXTERN Z1SVD2

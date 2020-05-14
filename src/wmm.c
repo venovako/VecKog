@@ -16,9 +16,9 @@ wide wdmm
     S1 = scalbw(S1, S);
     S2 = scalbw(S2, S);
   }
-  const wide /* scale U by 2^{-s}Sigma */
+  const wide // scale U by 2^{-s}Sigma
     U11 = ((wide)u11 * S1), U21 = ((wide)u21 * S1), U12 = ((wide)u12 * S2), U22 = ((wide)u22 * S2),
-    V11 = (wide)v11, V21 = (wide)v12, V12 = (wide)v21, V22 = (wide)v22; /* transpose V */
+    V11 = (wide)v11, V21 = (wide)v12, V12 = (wide)v21, V22 = (wide)v22; // transpose V
 
   const wide
     A_F = hypotw(hypotw(A11, A21), hypotw(A12, A22));
@@ -55,12 +55,12 @@ wide wzmm
     S1 = scalbw(S1, S);
     S2 = scalbw(S2, S);
   }
-  const wide /* scale U by 2^{-s}Sigma */
+  const wide // scale U by 2^{-s}Sigma
     U11r = ((wide)u11r * S1), U11i = ((wide)u11i * S1),
     U21r = ((wide)u21r * S1), U21i = ((wide)u21i * S1),
     U12r = ((wide)u12r * S2), U12i = ((wide)u12i * S2),
     U22r = ((wide)u22r * S2), U22i = ((wide)u22i * S2),
-    /* conjugate-transpose V */
+    // conjugate-transpose V
     V11r = (wide)v11r, V11i = (wide)-v11i,
     V21r = (wide)v12r, V21i = (wide)-v12i,
     V12r = (wide)v21r, V12i = (wide)-v21i,

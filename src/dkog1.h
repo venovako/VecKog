@@ -1,7 +1,7 @@
 #ifndef DKOG1_H
 #define DKOG1_H
 
-// real x1svd2 from the paper
+// d1svd2 from the paper
 
 // callable from Fortran directly (no interfaces needed):
 // EXTERN D1SVD2

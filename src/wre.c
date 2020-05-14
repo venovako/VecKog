@@ -74,10 +74,10 @@ int Pwre(FILE f[static 1], const size_t n, const wide K2[static 1], const wide R
 
   char s[31];
   for (size_t i = (size_t)0u; i < n; ++i) {
-    ret += fprintf(f, "%zu,%s,", i, xtos(s, (long double)(K2[i])));
-    ret += fprintf(f, "%s,", xtos(s, (long double)(RE[i])));
-    ret += fprintf(f, "%s,", xtos(s, (long double)(OU[i])));
-    ret += fprintf(f, "%s\n", xtos(s, (long double)(OV[i])));
+    ret += fprintf(f, "%zu,%s,", i, xtoa(s, (long double)(K2[i])));
+    ret += fprintf(f, "%s,", xtoa(s, (long double)(RE[i])));
+    ret += fprintf(f, "%s,", xtoa(s, (long double)(OU[i])));
+    ret += fprintf(f, "%s\n", xtoa(s, (long double)(OV[i])));
   }
 
   return (fflush(f) ? -2 : ret);
@@ -88,9 +88,9 @@ int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const 
   char s[31];
   int ret = fprintf(f, "%8zu,", i);
   ret += fprintf(f, "%# 13.6f,", t);
-  ret += fprintf(f, "%s,", xtos(s, (long double)k2));
-  ret += fprintf(f, "%s,", xtos(s, (long double)re));
-  ret += fprintf(f, "%s,", xtos(s, (long double)ou));
-  ret += fprintf(f, "%s\n", xtos(s, (long double)ov));
+  ret += fprintf(f, "%s,", xtoa(s, (long double)k2));
+  ret += fprintf(f, "%s,", xtoa(s, (long double)re));
+  ret += fprintf(f, "%s,", xtoa(s, (long double)ou));
+  ret += fprintf(f, "%s\n", xtoa(s, (long double)ov));
   return (fflush(f) ? -1 : ret);
 }

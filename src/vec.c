@@ -19,7 +19,7 @@ int Vprintf(FILE f[static 1], const char *const h, const VD v)
 
   char s[26];
   for (unsigned i = 0u; i < VL; ++i) {
-    char *const p = dtos(s, d[i]);
+    char *const p = dtoa(s, d[i]);
     if (!p) {
       perror("sprintf");
       return -(int)(i + 4u);

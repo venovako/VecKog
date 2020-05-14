@@ -1,7 +1,7 @@
 #ifndef DKOG8_H
 #define DKOG8_H
 
-// real xSsvd2 from the paper
+// dSsvd2 from the paper
 // all arguments must be aligned to VA (64) bytes
 
 // callable from Fortran directly (no interfaces needed):
