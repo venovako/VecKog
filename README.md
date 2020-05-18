@@ -1,6 +1,9 @@
 # VecKog
 The vectorized (AVX-512) batched singular value decomposition algorithm for matrices of order two.
 
+This software is a supplementary material for the paper
+arXiv:[2005.07403](https://arxiv.org/abs/2005.07403 "Batched computation of the singular value decompositions of order two by the AVX-512 vectorization") \[cs.MS\].
+
 ## Building
 
 ### Prerequisites
