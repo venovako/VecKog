@@ -14,7 +14,7 @@ extern __float128 __scalbq(__float128, __float128);
 #ifndef USE_EXTENDED
 #define USE_EXTENDED
 #endif /* !USE_EXTENDED */
-#endif /* __ICC */
+#endif /* ?__ICC */
 
 #ifdef USE_EXTENDED
 typedef long double wide;
