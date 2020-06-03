@@ -17,10 +17,10 @@ C18FLAGS=$(CPUFLAGS)
 FPUFLAGS=-fp-model source -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high -fimf-use-svml=true
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG) -xHost -qopt-zmm-usage=high
-DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3 -diag-disable=1572,2547,10397
+DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3
 else # DEBUG
 OPTFLAGS=-O0 -xHost -qopt-zmm-usage=high
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -check=stack,uninit -w3 -diag-disable=1572,2547,10397
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -check=stack,uninit -w3
 FPUFLAGS += -fp-stack-check
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include

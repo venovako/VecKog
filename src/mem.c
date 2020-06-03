@@ -8,7 +8,9 @@ double *Valloc(const size_t n)
   double *const d = (double*)(V ? aligned_alloc(VA, V * VA) : NULL);
   if (d) {
     // each thread zeroes-out its portion of *d
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(V,d)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < V; ++i) {
       register const VD z = VI(setzero)();
       VI(store)((d + (i << VLlg)), z);
@@ -169,7 +171,9 @@ Tout *Talloc(const size_t n)
 
     const size_t w = (VL * sizeof(wide));
     // each thread zeroes-out its portion of t->*
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(V,t,w)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < V; ++i) {
       const size_t j = (i << VLlg);
       (void)memset((t->K2 + j), 0, w);

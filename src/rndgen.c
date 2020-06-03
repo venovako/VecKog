@@ -42,10 +42,14 @@ int main(int argc, char *argv[])
   (void)fflush(stdout);
   size_t j = 0u;
   bool k = true;
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(n,d,r,j,k)
+#endif /* _OPENMP */
   for (size_t i = (size_t)0u; i < n; ++i) {
     while (!isfinite(d[i]) && k) {
+#ifdef _OPENMP
 #pragma omp critical
+#endif /* _OPENMP */
       if (k) {
         if ((size_t)1u != fread(d + i, sizeof(double), (size_t)1u, r)) {
           k = false;

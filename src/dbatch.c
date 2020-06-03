@@ -57,7 +57,9 @@ int main(int argc, char *argv[])
       return EXIT_FAILURE;
     }
     double w = omp_get_wtime();
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(V,d)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < V; ++i) {
       const size_t k = (i << VLlg);
       d8svd2_
@@ -75,7 +77,9 @@ int main(int argc, char *argv[])
        d->v.S1, d->v.S2, d->v.s);
     // TODO: FIXME for n not a power of two
     for (size_t k = n >> 1u; k; k >>= 1u) {
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(k,t)
+#endif /* _OPENMP */
       for (size_t i = (size_t)0u; i < k; ++i) {
         (t->K2)[i] = fmaxw((t->K2)[i], (t->K2)[i + k]);
         (t->RE)[i] = fmaxw((t->RE)[i], (t->RE)[i + k]);

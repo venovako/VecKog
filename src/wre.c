@@ -11,7 +11,9 @@ void wdre
  const double S1[static restrict 1], const double S2[static restrict 1], const double *const S)
 {
   if (S) {
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(n,K2,RE,OU,OV,A11,A21,A12,A22,U11,U21,U12,U22,V11,V21,V12,V22,S1,S2,S)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < n; ++i) {
       RE[i] = wdmm
         (A11[i], A21[i], A12[i], A22[i], U11[i], U21[i], U12[i], U22[i], V11[i], V21[i], V12[i], V22[i], S1[i], S2[i], S[i], (K2 + i));
@@ -20,7 +22,9 @@ void wdre
     }
   }
   else {
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(n,K2,RE,OU,OV,A11,A21,A12,A22,U11,U21,U12,U22,V11,V21,V12,V22,S1,S2)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < n; ++i) {
       RE[i] = wdmm
         (A11[i], A21[i], A12[i], A22[i], U11[i], U21[i], U12[i], U22[i], V11[i], V21[i], V12[i], V22[i], S1[i], S2[i], +0.0, (K2 + i));
@@ -41,7 +45,9 @@ void wzre
  const double S1[static restrict 1], const double S2[static restrict 1], const double *const S)
 {
   if (S) {
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(n,K2,RE,OU,OV,A11r,A11i,A21r,A21i,A12r,A12i,A22r,A22i,U11r,U11i,U21r,U21i,U12r,U12i,U22r,U22i,V11r,V11i,V21r,V21i,V12r,V12i,V22r,V22i,S1,S2,S)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < n; ++i) {
       RE[i] = wzmm
         (A11r[i], A11i[i], A21r[i], A21i[i], A12r[i], A12i[i], A22r[i], A22i[i],
@@ -53,7 +59,9 @@ void wzre
     }
   }
   else {
+#ifdef _OPENMP
 #pragma omp parallel for default(none) shared(n,K2,RE,OU,OV,A11r,A11i,A21r,A21i,A12r,A12i,A22r,A22i,U11r,U11i,U21r,U21i,U12r,U12i,U22r,U22i,V11r,V11i,V21r,V21i,V12r,V12i,V22r,V22i,S1,S2)
+#endif /* _OPENMP */
     for (size_t i = (size_t)0u; i < n; ++i) {
       RE[i] = wzmm
         (A11r[i], A11i[i], A21r[i], A21i[i], A12r[i], A12i[i], A22r[i], A22i[i],
