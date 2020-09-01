@@ -15,15 +15,15 @@ The Intel MKL (Math Kernel Library) is recommended, but another LAPACK library c
 
 Run ``make`` in the ``src`` subdirectory as follows:
 ```bash
-make [CPU=x200|x64] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2|3|4|5|6|7] [all|clean|help]
+make [COMPILER=x200|x64] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2|3|4|5|6|7] [all|clean|help]
 ```
-where ``CPU`` should be set to ``x64`` for Xeons (default), or to ``x200`` for Xeon Phi KNLs, respectively.
+where ``COMPILER`` should be set to ``x64`` for Xeons (default), or to ``x200`` for Xeon Phi KNLs, respectively.
 Here, ``NDEBUG`` should be set to the desired optimization level (``3`` is a sensible choice).
 If unset, the predefined debug-mode build options will be used.
 
 For testing, ``TEST=0`` builds the vectorized code, and ``TEST=4`` builds the pointwise code.
 Adding two to ``TEST`` enables the optional backscaling, while adding one enables the step-by-step printouts.
-For example, ``make CPU=x200 NDEBUG=3 clean all`` will trigger a full, release-mode rebuild for the KNLs of the vectorized code only (equivalent to ``TEST=0``).
+For example, ``make COMPILER=x200 NDEBUG=3 clean all`` will trigger a full, release-mode rebuild for the KNLs of the vectorized code only (equivalent to ``TEST=0``).
 
 ## Running
 
