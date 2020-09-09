@@ -91,7 +91,7 @@ int Pwre(FILE f[static 1], const size_t n, const wide K2[static restrict 1], con
   return (fflush(f) ? -2 : ret);
 }
 
-int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const wide re, const wide ou, const wide ov)
+int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const wide re, const wide ou, const wide ov, const double *const avg)
 {
   char s[31];
   int ret = fprintf(f, "%8zu,", i);
@@ -99,6 +99,7 @@ int Bwre(FILE f[static 1], const size_t i, const double t, const wide k2, const 
   ret += fprintf(f, "%s,", xtoa(s, (long double)k2));
   ret += fprintf(f, "%s,", xtoa(s, (long double)re));
   ret += fprintf(f, "%s,", xtoa(s, (long double)ou));
-  ret += fprintf(f, "%s\n", xtoa(s, (long double)ov));
+  ret += fprintf(f, "%s", xtoa(s, (long double)ov));
+  ret += (avg ? fprintf(f, ",%#13.11f\n", *avg) : fprintf(f, "\n"));
   return (fflush(f) ? -1 : ret);
 }

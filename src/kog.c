@@ -1,23 +1,5 @@
 #include "kog.h"
 
-#ifdef TEST
-#if (TEST & 1)
-#ifndef PRINTOUT
-#define PRINTOUT stderr
-#endif /* !PRINTOUT */
-#endif /* TEST & 1 */
-#if (TEST & 2)
-#ifndef BACKSCALE
-#define BACKSCALE TEST
-#endif /* !BACKSCALE */
-#endif /* TEST & 2 */
-#if (TEST & 4)
-#ifndef POINTWISE
-#define POINTWISE TEST
-#endif /* !POINTWISE */
-#endif /* TEST & 4 */
-#endif /* TEST */
-
 #ifdef VP
 #error VP already defined
 #else /* !VP */

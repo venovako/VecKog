@@ -26,8 +26,8 @@ dbatch$(TEST)$(DEBUG).exe: dbatch.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 zbatch$(TEST)$(DEBUG).exe: zbatch.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
-	$(AR) $(ARFLAGS) $@ kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o
+libveckog$(TEST)$(DEBUG).a: kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o msr$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o $(MKFS)
+	$(AR) $(ARFLAGS) $@ kog$(TEST)$(DEBUG).o mem$(TEST)$(DEBUG).o msr$(TEST)$(DEBUG).o vec$(TEST)$(DEBUG).o wre$(TEST)$(DEBUG).o wmm$(TEST)$(DEBUG).o wor$(TEST)$(DEBUG).o common$(TEST)$(DEBUG).o
 
 kog$(TEST)$(DEBUG).o: kog.c kog.h dkog1.c dkog8.c dkog1.h dkog8.h zkog1.c zkog8.c zkog1.h zkog8.h kogp.c svd2.c vec.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -45,6 +45,9 @@ wmm$(TEST)$(DEBUG).o: wmm.c wmm.h wcmplx.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 wor$(TEST)$(DEBUG).o: wor.c wor.h wcmplx.h common.h $(MKFS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+msr$(TEST)$(DEBUG).o: msr.c msr.h common.h $(MKFS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 common$(TEST)$(DEBUG).o: common.c common.h $(MKFS)
