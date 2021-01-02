@@ -59,7 +59,7 @@ char *dtoa(char s[static 26], const double x)
 
 char *xtoa(char s[static 31], const long double x)
 {
-  int l = sprintf((char*)memset(s, 0, 31u), "%# -30.21LE", x);
+  int l = sprintf((char*)memset(s, 0, (size_t)31u), "%# -30.21LE", x);
   if (l <= 0)
     return (char*)NULL;
   char *d = s + 30;
