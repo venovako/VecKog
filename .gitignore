@@ -47,6 +47,7 @@
 # Other compiler-generated files
 *.S
 *.s
+*.mod
 *.optrpt
 
 # Data
