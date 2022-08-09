@@ -16,11 +16,11 @@ endif # TEST
 C18FLAGS=$(CPUFLAGS)
 FPUFLAGS=-fp-model precise -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-use-svml=true
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive
-DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3
+OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive -vec-threshold0
+DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3 -diag-disable=10397
 else # DEBUG
 OPTFLAGS=-O0 -xHost -qopt-multi-version-aggressive
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback -check=stack,uninit -w3
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback -check=stack,uninit -w3 -diag-disable=10397
 ifneq ($(ARCH),Darwin) # Linux
 DBGFLAGS += -debug parallel
 endif # ?Linux
