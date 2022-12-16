@@ -9,7 +9,7 @@ MKFS=GNUmakefile $(COMPILER).mk
 all: libveckog$(TEST)$(DEBUG).a rndgen$(TEST)$(DEBUG).exe dbatch$(TEST)$(DEBUG).exe zbatch$(TEST)$(DEBUG).exe d8svd2t$(TEST)$(DEBUG).exe z8svd2t$(TEST)$(DEBUG).exe
 
 help:
-	@echo "make [COMPILER=x200|x64] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2|3|4|5|6|7] [all|clean|help]"
+	@echo "make [COMPILER=x200|x64|x64x] [NDEBUG=0|1|2|3|4|5] [TEST=0|1|2|3|4|5|6|7] [all|clean|help]"
 
 rndgen$(TEST)$(DEBUG).exe: rndgen.c libveckog$(TEST)$(DEBUG).a $(MKFS)
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)

@@ -16,12 +16,10 @@ static_assert(sizeof(float _Complex) == 8, "sizeof(float _Complex) != 8");
 static_assert(sizeof(double _Complex) == 16, "sizeof(double _Complex) != 16");
 static_assert(sizeof(long double _Complex) >= 16, "sizeof(long double _Complex) < 16");
 #endif /* !NDEBUG */
-#ifndef USE_EXTENDED
 static_assert(sizeof(__float128) == 16, "sizeof(__float128) != 16");
 #ifndef NDEBUG
 static_assert(sizeof(__float128 _Complex) == 32, "sizeof(__float128 _Complex) != 32");
 #endif /* !NDEBUG */
-#endif /* !USE_EXTENDED */
 
 size_t atoz(const char *const s)
 {

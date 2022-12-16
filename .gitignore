@@ -49,6 +49,7 @@
 *.s
 *.mod
 *.optrpt
+*.opt.yaml
 
 # Data
 .svn/

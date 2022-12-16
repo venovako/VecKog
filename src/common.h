@@ -1,59 +1,13 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#ifdef __ICC
 #include <mathimf.h>
 extern __float128 __fmaq(__float128, __float128, __float128);
 extern __float128 __fmaxq(__float128, __float128);
 extern __float128 __fminq(__float128, __float128);
 extern __float128 __hypotq(__float128, __float128);
 extern __float128 __scalbq(__float128, __float128);
-#else /* !__ICC */
-#include <complex.h>
-#include <math.h>
-#ifndef USE_EXTENDED
-#define USE_EXTENDED
-#endif /* !USE_EXTENDED */
-#endif /* ?__ICC */
 
-#ifdef USE_EXTENDED
-typedef long double wide;
-#ifndef fmaw
-#define fmaw fmal
-#else /* fmaw */
-#error fmaw already defined
-#endif /* ?fmaw */
-#ifndef fmaxw
-#define fmaxw fmaxl
-#else /* fmaxw */
-#error fmaxw already defined
-#endif /* ?fmaxw */
-#ifndef fminw
-#define fminw fminl
-#else /* fminw */
-#error fminw already defined
-#endif /* ?fminw */
-#ifndef hypotw
-#define hypotw hypotl
-#else /* hypotw */
-#error hypotw already defined
-#endif /* ?hypotw */
-#ifndef scalbw
-#define scalbw scalbl
-#else /* scalbw */
-#error scalbw already defined
-#endif /* ?scalbw */
-#ifndef W_ZERO
-#define W_ZERO 0.0L
-#else /* W_ZERO */
-#error W_ZERO already defined
-#endif /* ?W_ZERO */
-#ifndef W_MONE
-#define W_MONE -1.0L
-#else /* W_MONE */
-#error W_MONE already defined
-#endif /* ?W_MONE */
-#else /* USE_QUAD */
 typedef __float128 wide;
 #ifndef fmaw
 #define fmaw __fmaq
@@ -90,7 +44,6 @@ typedef __float128 wide;
 #else /* W_MONE */
 #error W_MONE already defined
 #endif /* ?W_MONE */
-#endif /* ?USE_EXTENDED */
 
 #ifndef CMPLXF
 #define CMPLXF(r,i) ((float)(r) + I * (float)(i))
@@ -101,13 +54,8 @@ typedef __float128 wide;
 #ifndef CMPLXL
 #define CMPLXL(r,i) ((long double)(r) + I * (long double)(i))
 #endif /* !CMPLXL */
-
 #ifndef CMPLXW
-#ifdef USE_EXTENDED
-#define CMPLXW(r,i) CMPLXL((r),(i))
-#else /* USE_QUAD */
 #define CMPLXW(r,i) ((wide)(r) + I * (wide)(i))
-#endif /* ?USE_EXTENDED */
 #else /* CMPLXW */
 #error CMPLXW already defined
 #endif /* ?CMPLXW */
