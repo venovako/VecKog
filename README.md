@@ -9,16 +9,16 @@ doi:[10.1142/S0129626420500152](https://doi.org/10.1142/S0129626420500152 "Batch
 
 ### Prerequisites
 
-A recent Intel C compiler on a 64-bit Linux (e.g., CentOS 7.8) is required; macOS (e.g., Catalina) should also be supported (not tested).
+A recent Intel C compiler on a 64-bit Linux (e.g., CentOS 7.8) is required.
 The Intel MKL (Math Kernel Library) is recommended, but another LAPACK library could work with some tweaking.
 
 ### Make options
 
 Run ``make`` in the ``src`` subdirectory as follows:
 ```bash
-make [COMPILER=x200|x64|x64x] [NDEBUG=0|1|2|3|4|5] [TEST=0..15] [all|clean|help]
+make [COMPILER=x200|x64x] [NDEBUG=0|1|2|3|4|5] [TEST=0..15] [all|clean|help]
 ```
-where ``COMPILER`` should be set to ``x64`` (deprecated but default) or ``x64x`` for Xeons, or to ``x200`` for Xeon Phi KNLs, respectively.
+where ``COMPILER`` should be set to ``x64x`` for Xeons, or to ``x200`` for Xeon Phi KNLs, respectively.
 Here, ``NDEBUG`` should be set to the desired optimization level (``3`` is a sensible choice).
 If unset, the predefined debug-mode build options will be used.
 

@@ -8,30 +8,20 @@ endif # ?NDEBUG
 RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
-CC=icx -std=c18
-CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
+CC=icx -std=gnu18
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -qopenmp -traceback -vec-threshold0
 ifdef TEST
 CPUFLAGS += -DTEST=$(TEST)
 endif # TEST
 C18FLAGS=$(CPUFLAGS)
-FPUFLAGS=-fp-model precise -fprotect-parens -fma -no-ftz -fimf-use-svml=true
+FPUFLAGS=-fp-model=precise -fp-speculation=safe -fprotect-parens -fma -no-ftz -fimf-precision=high -fimf-use-svml=true
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -vec-threshold0
-DBGFLAGS=-DNDEBUG -qopt-report=3 -traceback
+OPTFLAGS=-O$(NDEBUG) -xHost -fno-math-errno -inline-level=2
+DBGFLAGS=-DNDEBUG -qopt-report=3
 else # DEBUG
 OPTFLAGS=-O0 -xHost
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback
-ifneq ($(ARCH),Darwin) # Linux
-DBGFLAGS += -debug parallel
-endif # ?Linux
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel
 endif # ?NDEBUG
-LIBFLAGS=-I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L. -lveckog$(TEST)$(DEBUG)
-ifeq ($(ARCH),Darwin)
-LDFLAGS += -L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
-else # Linux
-LIBFLAGS += -static-libgcc -D_GNU_SOURCE
-LDFLAGS += -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
-endif # ?Darwin
-LDFLAGS += -lpthread -lm -ldl
+LIBFLAGS=-D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+LDFLAGS=-rdynamic -static-libgcc -L. -lveckog$(TEST)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
 CFLAGS=$(OPTFLAGS) $(DBGFLAGS) $(LIBFLAGS) $(C18FLAGS) $(FPUFLAGS)

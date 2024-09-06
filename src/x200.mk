@@ -8,21 +8,20 @@ endif # ?NDEBUG
 RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
-CC=icc -std=c18
-CPUFLAGS=-DUSE_INTEL -DUSE_X200 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
+CC=icx -std=gnu18
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -qopenmp -traceback -vec-threshold0
 ifdef TEST
 CPUFLAGS += -DTEST=$(TEST)
 endif # TEST
 C18FLAGS=$(CPUFLAGS)
-FPUFLAGS=-fp-model precise -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-use-svml=true
+FPUFLAGS=-fp-model=precise -fp-speculation=safe -fprotect-parens -fma -no-ftz -fimf-precision=high -fimf-use-svml=true
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive -qopt-zmm-usage=high -vec-threshold0
-DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -w3
+OPTFLAGS=-O$(NDEBUG) -xcommon-avx512 -fno-math-errno -inline-level=2
+DBGFLAGS=-DNDEBUG -qopt-report=3
 else # DEBUG
-OPTFLAGS=-O0 -xHost -qopt-multi-version-aggressive -qopt-zmm-usage=high
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -check=stack,uninit -w3
-FPUFLAGS += -fp-stack-check
+OPTFLAGS=-O0 -xcommon-avx512
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel
 endif # ?NDEBUG
-LIBFLAGS=-static-libgcc -D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L. -lveckog$(TEST)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
+LIBFLAGS=-D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+LDFLAGS=-rdynamic -static-libgcc -L. -lveckog$(TEST)$(DEBUG) -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
 CFLAGS=$(OPTFLAGS) $(DBGFLAGS) $(LIBFLAGS) $(C18FLAGS) $(FPUFLAGS)
