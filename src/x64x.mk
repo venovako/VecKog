@@ -15,11 +15,15 @@ CPUFLAGS += -DTEST=$(TEST)
 endif # TEST
 C18FLAGS=$(CPUFLAGS)
 FPUFLAGS=-fp-model=precise -fp-speculation=safe -fprotect-parens -fma -no-ftz -fimf-precision=high -fimf-use-svml=true
+ifndef CPU
+CPU=Host
+# common-avx512 for KNLs
+endif # !CPU
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -fno-math-errno -inline-level=2
+OPTFLAGS=-O$(NDEBUG) -x$(CPU) -fno-math-errno -inline-level=2
 DBGFLAGS=-DNDEBUG -qopt-report=3
 else # DEBUG
-OPTFLAGS=-O0 -xHost
+OPTFLAGS=-O0 -x$(CPU)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE -I. -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
