@@ -16,7 +16,7 @@ The Intel MKL (Math Kernel Library) is recommended, but another LAPACK library c
 
 Run ``make`` in the ``src`` subdirectory as follows:
 ```bash
-make [COMPILER=x64x|x200|x64] [CPU=...] [NDEBUG=optimization_level] [TEST=0..15] [all|clean|help]
+make [COMPILER=x64x|x200|x64] [MARCH=...] [NDEBUG=optimization_level] [TEST=0..15] [all|clean|help]
 ```
 where ``COMPILER`` should be set to ``x64x`` for Xeons, or to ``x200`` for Xeon Phi KNLs, respectively.
 Here, ``NDEBUG`` should be set to the desired optimization level (``3`` is a sensible choice).
