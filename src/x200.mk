@@ -6,8 +6,8 @@ else # DEBUG
 DEBUG=g
 endif # ?NDEBUG
 RM=rm -rfv
-AR=xiar
-ARFLAGS=-qnoipo -lib rsv
+AR=ar
+ARFLAGS=rsv
 CC=icx -std=gnu18
 CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -mprefer-vector-width=512 -qopenmp -traceback -vec-threshold0
 ifdef TEST
