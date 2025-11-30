@@ -11,21 +11,18 @@ doi:[10.1142/S0129626420500152](https://doi.org/10.1142/S0129626420500152 "Batch
 
 A recent Intel C compiler on a 64-bit Linux (e.g., CentOS 7.8) is required.
 The Intel MKL (Math Kernel Library) is recommended, but another LAPACK library could work with some tweaking.
+The repository [libpvn](https://github.com/venovako/libpvn) has to be cloned in a parallel directory to this one and built with the desired compiler and the ``OPENMP`` make variable at least ``0``.
 
 ### Make options
 
 Run ``make`` in the ``src`` subdirectory as follows:
 ```bash
-make [COMPILER=x64x|x200] [MARCH=...] [NDEBUG=0|1|2|3|...|g] [TEST=0..15] [all|clean|help]
+make [TEST=0..15] [all|clean|help]
 ```
-where ``COMPILER`` should be set to ``x64x`` for Xeons, or to ``x200`` for Xeon Phi KNLs, respectively.
-Here, ``NDEBUG`` should be set to the desired optimization level (``3`` is a sensible choice).
-If unset, the predefined debug-mode build options will be used.
 
 For testing, ``TEST=0`` builds the vectorized code, and ``TEST=4`` builds the pointwise code.
 Adding two to ``TEST`` enables the optional backscaling, while adding one enables the step-by-step printouts.
 Adding eight to ``TEST`` turns on tracking of ``IA32_MPERF`` and ``IA32_APERF`` MSRs (requires running the executables as `root`).
-For example, ``make COMPILER=x200 NDEBUG=3 clean all`` will trigger a full, release-mode rebuild for the KNLs of the vectorized code only (equivalent to ``TEST=0``).
 
 ## Running
 
